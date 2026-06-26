@@ -1,285 +1,308 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Invicta Connect — Progress Tracking System</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  /* Presentation layer (dark) */
   --bg:#090c14;--s1:#0f1420;--s2:#151c2c;--s3:#1c2438;
-  --border:#1f2940;--border2:#273050;
-  --text:#e2e8f0;--muted:#7c8ba1;--dim:#3d4d6a;
-  --green:#10b981;--blue:#3b82f6;--purple:#8b5cf6;--amber:#f59e0b;--red:#ef4444;
-
-  /* Connect app theme (light — exact values from the codebase) */
-  --app-bg:hsl(209,40%,96%);        /* #F0F6FD */
-  --app-card:hsl(210,40%,98%);      /* #FAFBFD */
-  --app-border:hsl(212,26%,83%);    /* #D1D9E6 */
-  --app-text:hsl(222,47%,11%);      /* #1A1F3A */
-  --app-muted:hsl(215,20%,65%);     /* #868FA5 */
-  --app-sidebar:hsl(215,28%,12%);   /* #1A2533 */
-  --app-sidebar-text:hsl(210,40%,98%);
-  --app-sidebar-muted:hsl(215,15%,40%); /* #51617A */
-  --app-primary:hsl(216,19%,26%);   /* #3B4A62 */
-  --app-success:hsl(152,60%,38%);   /* #2E8555 */
-  --app-warning:hsl(38,92%,50%);    /* #F59E0B */
-  --app-danger:hsl(0,72%,50%);      /* #E63333 */
-  --app-input:hsl(212,26%,83%);
+  --bdr:#1f2940;--bdr2:#273050;
+  --tx:#e2e8f0;--mu:#7c8ba1;--dim:#3d4d6a;
+  --gr:#10b981;--bl:#3b82f6;--pu:#8b5cf6;--am:#f59e0b;--rd:#ef4444;--tl:#0d9488;
+  --app-bg:hsl(209,40%,96%);--app-card:hsl(210,40%,98%);
+  --app-bdr:hsl(212,26%,83%);--app-bdr2:hsl(212,26%,90%);
+  --app-tx:hsl(222,47%,11%);--app-mu:hsl(215,20%,65%);
+  --app-sb:hsl(215,28%,12%);--app-sb-mu:hsl(215,15%,40%);
+  --app-pr:hsl(216,19%,26%);
+  --app-ok:hsl(152,60%,38%);--app-wn:hsl(38,92%,50%);--app-er:hsl(0,72%,50%);
 }
 html{scroll-behavior:smooth}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;font-size:15px}
-
-/* ── PRESENTATION NAV ───────────────────────── */
-nav{position:sticky;top:0;z-index:200;background:rgba(9,12,20,.94);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 2rem}
-.nav-brand{font-weight:800;font-size:13px;color:var(--green);letter-spacing:.08em;text-transform:uppercase}
-.nav-links{display:flex;gap:1.5rem;flex-wrap:wrap}
-.nav-links a{color:var(--muted);text-decoration:none;font-size:12px;font-weight:500;transition:color .15s}
-.nav-links a:hover{color:var(--text)}
-
-/* ── LAYOUT ─────────────────────────────────── */
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;font-size:15px}
+/* NAV */
+nav{position:sticky;top:0;z-index:300;background:rgba(9,12,20,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bdr);height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 2rem}
+.nav-brand{font-weight:800;font-size:13px;color:var(--gr);letter-spacing:.08em;text-transform:uppercase}
+.nav-links{display:flex;gap:1.25rem}
+.nav-links a{color:var(--mu);text-decoration:none;font-size:12px;font-weight:500;transition:color .15s}
+.nav-links a:hover{color:var(--tx)}
+/* WRAP */
 .wrap{max-width:1080px;margin:0 auto;padding:0 2rem}
-section{padding:5rem 0}
-section+section{border-top:1px solid var(--border)}
-h1{font-size:clamp(1.9rem,4vw,2.9rem);font-weight:800;line-height:1.12;letter-spacing:-.02em}
-h2{font-size:1.45rem;font-weight:800;letter-spacing:-.01em;margin-bottom:.6rem}
-h3{font-size:.975rem;font-weight:700;margin-bottom:.35rem}
-p{color:var(--muted);margin-bottom:.8rem}
+section{padding:4.5rem 0}
+section+section{border-top:1px solid var(--bdr)}
+h2{font-size:1.45rem;font-weight:800;letter-spacing:-.01em;margin-bottom:.5rem}
+h3{font-size:.95rem;font-weight:700;margin-bottom:.3rem}
+p{color:var(--mu);margin-bottom:.8rem}
 p:last-child{margin-bottom:0}
-.tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:.75rem}
-
-/* ── HERO ────────────────────────────────────── */
-#hero{padding:7rem 0 5rem;background:radial-gradient(ellipse 80% 50% at 50% -5%,rgba(16,185,129,.09),transparent)}
-#hero h1 em{font-style:normal;color:var(--green)}
-.hero-sub{font-size:1.05rem;color:var(--muted);max-width:580px;line-height:1.75;margin:1.25rem 0 2.5rem}
-.hero-stats{display:flex;gap:2.5rem;flex-wrap:wrap}
-.stat .n{font-size:1.9rem;font-weight:900;color:var(--text);line-height:1}
-.stat .l{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:.3rem}
-
-/* ── GRID ────────────────────────────────────── */
+.tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gr);margin-bottom:.65rem}
+/* HERO */
+#hero{padding:6.5rem 0 4.5rem;background:radial-gradient(ellipse 80% 50% at 50% -5%,rgba(16,185,129,.09),transparent)}
+#hero h1{font-size:clamp(1.9rem,4vw,2.9rem);font-weight:900;line-height:1.12;letter-spacing:-.02em;margin-bottom:1.1rem}
+#hero h1 em{font-style:normal;color:var(--gr)}
+.hero-sub{font-size:1rem;color:var(--mu);max-width:560px;line-height:1.75;margin-bottom:2.25rem}
+.hero-stats{display:flex;gap:2.25rem;flex-wrap:wrap}
+.stat .n{font-size:1.8rem;font-weight:900;color:var(--tx);line-height:1}
+.stat .l{font-size:10px;color:var(--mu);text-transform:uppercase;letter-spacing:.06em;margin-top:.25rem}
+/* GRIDS */
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
 .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
 .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:.875rem}
-@media(max-width:700px){.g2,.g3,.g4{grid-template-columns:1fr}}
-
-/* ── PRESENTATION CARDS ─────────────────────── */
-.pcard{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:1.25rem}
-.note{background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:.875rem 1.1rem;margin-top:1rem}
-.note p{font-size:.85rem;margin:0}
-.note strong{color:var(--text)}
-
-/* ── PHASE STRUCTURE ─────────────────────────── */
-.phase-intro{display:flex;align-items:center;gap:1rem;margin-bottom:.5rem}
-.phase-num{width:44px;height:44px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:900;flex-shrink:0}
-.p1 .phase-num{background:rgba(16,185,129,.15);color:var(--green)}
-.p2 .phase-num{background:rgba(99,102,241,.15);color:#818cf8}
-.p3 .phase-num{background:rgba(139,92,246,.15);color:var(--purple)}
-.p4 .phase-num{background:rgba(245,158,11,.15);color:var(--amber)}
-.phase-title{font-size:1.3rem;font-weight:800;margin-bottom:.2rem}
-.phase-weeks{display:inline-flex;align-items:center;font-size:10px;font-weight:700;padding:.15rem .55rem;border-radius:4px;margin-left:.5rem;letter-spacing:.05em}
-.p1 .phase-weeks{background:rgba(16,185,129,.12);color:var(--green)}
-.p2 .phase-weeks{background:rgba(99,102,241,.12);color:#818cf8}
-.p3 .phase-weeks{background:rgba(139,92,246,.12);color:var(--purple)}
-.p4 .phase-weeks{background:rgba(245,158,11,.12);color:var(--amber)}
-.phase-desc{font-size:.9rem;color:var(--muted);margin-bottom:2rem}
-
-.outcome-band{margin-top:1.5rem;padding:.875rem 1.1rem;border-radius:10px;border:1px solid}
-.p1 .outcome-band{background:rgba(16,185,129,.05);border-color:rgba(16,185,129,.2)}
-.p2 .outcome-band{background:rgba(99,102,241,.05);border-color:rgba(99,102,241,.2)}
-.p3 .outcome-band{background:rgba(139,92,246,.05);border-color:rgba(139,92,246,.2)}
-.p4 .outcome-band{background:rgba(245,158,11,.05);border-color:rgba(245,158,11,.2)}
-.outcome-band .ol{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.35rem}
-.p1 .ol{color:var(--green)}.p2 .ol{color:#818cf8}.p3 .ol{color:var(--purple)}.p4 .ol{color:var(--amber)}
-.outcome-band p{font-size:.875rem;color:var(--text)}
-
-/* ── TAB CHANGE HEADER ───────────────────────── */
-.tab-change{margin-bottom:1.75rem}
-.tab-label{display:flex;align-items:center;gap:.6rem;margin-bottom:.875rem}
-.tab-chip{display:inline-flex;align-items:center;gap:.4rem;background:var(--s2);border:1px solid var(--border2);border-radius:6px;padding:.3rem .75rem;font-size:12px;font-weight:700;color:var(--text)}
-.tab-chip .dot{width:7px;height:7px;border-radius:50%}
-.tab-chip.new{border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.06);color:var(--green)}
-.change-type{font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
-.change-type.updated{color:var(--blue)}
-.change-type.extended{color:var(--purple)}
-.change-type.new{color:var(--green)}
-
-/* ── CONNECT APP MOCK ────────────────────────── */
-.app{background:var(--app-bg);border-radius:14px;overflow:hidden;font-family:'DM Sans','Inter',sans-serif;font-size:13px;color:var(--app-text);box-shadow:0 24px 60px rgba(0,0,0,.5)}
-.app-frame{display:flex;min-height:320px}
-
-/* Sidebar */
-.app-sidebar{width:192px;background:var(--app-sidebar);flex-shrink:0;padding:.875rem .75rem;display:flex;flex-direction:column;gap:1px}
-.app-sidebar-logo{padding:.5rem .75rem;margin-bottom:.5rem}
-.app-sidebar-logo span{font-size:13px;font-weight:700;color:#fff;opacity:.9}
-.app-nav-section{font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--app-sidebar-muted);padding:.4rem .75rem .2rem}
-.app-nav-item{display:flex;align-items:center;gap:.5rem;padding:.4rem .75rem;border-radius:6px;font-size:12px;color:var(--app-sidebar-text);opacity:.65;cursor:pointer;transition:all .1s}
-.app-nav-item:hover{opacity:.85;background:rgba(255,255,255,.05)}
-.app-nav-item.active{background:rgba(255,255,255,.1);opacity:1;font-weight:600}
-.app-nav-item .nav-dot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0}
-.app-nav-item.highlight{color:#10b981;opacity:1}
-.app-nav-item.highlight.active{background:rgba(16,185,129,.15)}
-
-/* Main area */
-.app-main{flex:1;padding:1.25rem;overflow:hidden}
-.app-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
-.app-title{font-size:1.1rem;font-weight:700;color:var(--app-text)}
-.app-subtitle{font-size:11px;color:var(--app-muted);margin-top:.1rem}
-
-/* App tabs */
-.app-tabs{display:flex;gap:0;border-bottom:2px solid var(--app-border);margin-bottom:1rem}
-.app-tab{padding:.45rem .875rem;font-size:12px;font-weight:500;color:var(--app-muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap}
-.app-tab.active{color:var(--app-primary);border-bottom-color:var(--app-primary);font-weight:600}
-.app-tab.new-tab{color:var(--app-success);font-weight:600}
-.app-tab.new-tab.active{border-bottom-color:var(--app-success)}
-
+@media(max-width:720px){.g2,.g3,.g4{grid-template-columns:1fr}}
+/* PHASE HEADER */
+.ph{display:flex;align-items:center;gap:.9rem;margin-bottom:.4rem}
+.pn{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:.975rem;font-weight:900;flex-shrink:0}
+.p1 .pn{background:rgba(16,185,129,.15);color:var(--gr)}
+.p2 .pn{background:rgba(99,102,241,.15);color:#818cf8}
+.p3 .pn{background:rgba(139,92,246,.15);color:var(--pu)}
+.p4 .pn{background:rgba(245,158,11,.15);color:var(--am)}
+.pt{font-size:1.3rem;font-weight:800}
+.pw{display:inline-flex;font-size:10px;font-weight:700;padding:.15rem .55rem;border-radius:4px;margin-left:.5rem;letter-spacing:.05em}
+.p1 .pw{background:rgba(16,185,129,.12);color:var(--gr)}
+.p2 .pw{background:rgba(99,102,241,.12);color:#818cf8}
+.p3 .pw{background:rgba(139,92,246,.12);color:var(--pu)}
+.p4 .pw{background:rgba(245,158,11,.12);color:var(--am)}
+.pd{font-size:.875rem;color:var(--mu);margin-bottom:1.75rem}
+/* OUTCOME */
+.ob{margin-top:1.5rem;padding:.875rem 1.1rem;border-radius:10px;border:1px solid}
+.p1 .ob{background:rgba(16,185,129,.05);border-color:rgba(16,185,129,.2)}
+.p2 .ob{background:rgba(99,102,241,.05);border-color:rgba(99,102,241,.2)}
+.p3 .ob{background:rgba(139,92,246,.05);border-color:rgba(139,92,246,.2)}
+.p4 .ob{background:rgba(245,158,11,.05);border-color:rgba(245,158,11,.2)}
+.ob .ol{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.3rem}
+.p1 .ol{color:var(--gr)}.p2 .ol{color:#818cf8}.p3 .ol{color:var(--pu)}.p4 .ol{color:var(--am)}
+.ob p{font-size:.875rem;color:var(--tx)}
+/* TAB CHANGE LABEL */
+.tc{margin-bottom:1.75rem}
+.tl{display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem}
+.tc-chip{display:inline-flex;align-items:center;gap:.4rem;background:var(--s2);border:1px solid var(--bdr2);border-radius:6px;padding:.3rem .7rem;font-size:11.5px;font-weight:700;color:var(--tx)}
+.tc-chip .dot{width:6px;height:6px;border-radius:50%}
+.tc-chip.new-tab{border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.06);color:var(--gr)}
+.ct-up{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--bl)}
+.ct-ext{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--pu)}
+.ct-new{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--gr)}
+.tc-desc{font-size:.84rem;color:var(--mu);margin-bottom:1rem}
+/* BA LABEL */
+.ba-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:720px){.ba-row{grid-template-columns:1fr}}
+.ba-lbl{font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:.45rem}
+.ba-lbl.before{color:var(--rd)}.ba-lbl.after{color:var(--gr)}
+/* NOTE */
+.note{background:var(--s1);border:1px solid var(--bdr);border-radius:8px;padding:.8rem 1rem;margin-top:.875rem}
+.note p{font-size:.83rem;margin:0}
+.note strong{color:var(--tx)}
+/* ─── APP MOCKS ─── */
+.app{background:var(--app-bg);border-radius:14px;overflow:hidden;font-family:'Inter',sans-serif;font-size:13px;color:var(--app-tx);box-shadow:0 20px 50px rgba(0,0,0,.5)}
+.app-frame{display:flex;min-height:260px}
+.app-sb{width:182px;background:var(--app-sb);flex-shrink:0;padding:.8rem .65rem}
+.app-sb-logo{padding:.4rem .7rem .7rem;font-size:12.5px;font-weight:700;color:#fff;opacity:.9;border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:.5rem}
+.app-ns{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--app-sb-mu);padding:.5rem .7rem .2rem}
+.app-ni{display:flex;align-items:center;gap:.45rem;padding:.38rem .7rem;border-radius:5px;font-size:11.5px;color:rgba(255,255,255,.65);cursor:pointer}
+.app-ni:hover{background:rgba(255,255,255,.06)}
+.app-ni.act{background:rgba(255,255,255,.1);color:#fff;font-weight:600}
+.app-ni.hi{color:var(--gr);opacity:1}
+.app-ni.hi.act{background:rgba(16,185,129,.15)}
+.app-ni .ni-dot{width:4px;height:4px;border-radius:50%;background:currentColor;flex-shrink:0}
+.app-main{flex:1;padding:1.1rem;overflow:hidden;min-width:0}
+.app-h{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.875rem;gap:.5rem}
+.app-title{font-size:1rem;font-weight:700;color:var(--app-tx)}
+.app-sub{font-size:10.5px;color:var(--app-mu);margin-top:.1rem}
+.app-tabs{display:flex;border-bottom:2px solid var(--app-bdr);margin-bottom:.875rem;overflow-x:auto}
+.app-tab{padding:.4rem .8rem;font-size:11.5px;font-weight:500;color:var(--app-mu);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap;flex-shrink:0}
+.app-tab.act{color:var(--app-pr);border-bottom-color:var(--app-pr);font-weight:600}
+.app-tab.new{color:var(--app-ok);font-weight:600}
+.app-tab.new.act{border-bottom-color:var(--app-ok)}
 /* App card */
-.app-card{background:var(--app-card);border:1px solid var(--app-border);border-radius:8px;padding:1rem;margin-bottom:.75rem}
-.app-card:last-child{margin-bottom:0}
-.app-card-title{font-size:13px;font-weight:600;color:var(--app-text);margin-bottom:.25rem}
-.app-card-sub{font-size:11px;color:var(--app-muted)}
-
+.ac{background:var(--app-card);border:1px solid var(--app-bdr);border-radius:7px;padding:.875rem;margin-bottom:.6rem}
+.ac:last-child{margin-bottom:0}
+.ac-name{font-size:13px;font-weight:600;color:var(--app-tx)}
+.ac-sub{font-size:11px;color:var(--app-mu);margin-top:.1rem}
 /* App badge */
-.app-badge{display:inline-flex;align-items:center;gap:.25rem;font-size:10.5px;font-weight:600;padding:.2rem .5rem;border-radius:9999px}
-.app-badge.success{background:rgba(46,133,85,.12);color:var(--app-success)}
-.app-badge.warning{background:rgba(245,158,11,.12);color:var(--app-warning)}
-.app-badge.danger{background:rgba(230,51,51,.12);color:var(--app-danger)}
-.app-badge.muted{background:hsl(215,20%,90%);color:var(--app-muted)}
-.app-badge.primary{background:rgba(59,74,98,.12);color:var(--app-primary)}
-
-/* Stage badge (new) */
-.stage-badge{display:inline-flex;align-items:center;gap:.3rem;font-size:10.5px;font-weight:600;padding:.2rem .55rem;border-radius:6px;border:1px solid}
-.sb-new{background:rgba(134,143,165,.08);color:#666f85;border-color:rgba(134,143,165,.3)}
-.sb-draft{background:rgba(59,130,246,.08);color:#2563eb;border-color:rgba(59,130,246,.25)}
-.sb-fab{background:rgba(99,102,241,.08);color:#4f46e5;border-color:rgba(99,102,241,.25)}
-.sb-pc{background:rgba(245,158,11,.08);color:var(--app-warning);border-color:rgba(245,158,11,.25)}
-.sb-rfd{background:rgba(20,184,166,.08);color:#0d9488;border-color:rgba(20,184,166,.25)}
-.sb-del{background:rgba(46,133,85,.08);color:var(--app-success);border-color:rgba(46,133,85,.25)}
-.sb-ins{background:rgba(139,92,246,.08);color:#7c3aed;border-color:rgba(139,92,246,.25)}
-.sb-done{background:rgba(46,133,85,.12);color:var(--app-success);border-color:rgba(46,133,85,.3)}
-.sb-dot{width:5px;height:5px;border-radius:50%;background:currentColor;display:inline-block}
-
+.ab{display:inline-flex;align-items:center;gap:.2rem;font-size:10px;font-weight:600;padding:.15rem .45rem;border-radius:9999px}
+.ab-ok{background:rgba(46,133,85,.12);color:var(--app-ok)}
+.ab-wn{background:rgba(245,158,11,.12);color:var(--app-wn)}
+.ab-er{background:rgba(230,51,51,.12);color:var(--app-er)}
+.ab-mu{background:hsl(212,26%,90%);color:var(--app-mu)}
+.ab-pr{background:rgba(59,74,98,.1);color:var(--app-pr)}
+.ab-pu{background:rgba(99,102,241,.1);color:#4f46e5}
+.ab-tl{background:rgba(13,148,136,.1);color:#0d9488}
+/* Stage badge */
+.sb{display:inline-flex;align-items:center;gap:.3rem;font-size:10.5px;font-weight:600;padding:.18rem .5rem;border-radius:5px;border:1px solid;white-space:nowrap}
+.sb-d{width:5px;height:5px;border-radius:50%;background:currentColor;display:inline-block;flex-shrink:0}
+.sb-new{background:rgba(102,111,133,.07);color:#666f85;border-color:rgba(102,111,133,.25)}
+.sb-draft{background:rgba(37,99,235,.07);color:#2563eb;border-color:rgba(37,99,235,.2)}
+.sb-fab{background:rgba(79,70,229,.07);color:#4f46e5;border-color:rgba(79,70,229,.2)}
+.sb-pc{background:rgba(245,158,11,.07);color:var(--app-wn);border-color:rgba(245,158,11,.2)}
+.sb-rfd{background:rgba(13,148,136,.07);color:#0d9488;border-color:rgba(13,148,136,.2)}
+.sb-del{background:rgba(46,133,85,.08);color:var(--app-ok);border-color:rgba(46,133,85,.2)}
+.sb-ins{background:rgba(124,58,237,.07);color:#7c3aed;border-color:rgba(124,58,237,.2)}
+.sb-done{background:rgba(46,133,85,.12);color:var(--app-ok);border-color:rgba(46,133,85,.3)}
+/* App table */
+.at{width:100%;border-collapse:collapse}
+.at th{text-align:left;font-size:9.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--app-mu);padding:.35rem .55rem;border-bottom:1px solid var(--app-bdr)}
+.at td{padding:.42rem .55rem;border-bottom:1px solid var(--app-bdr2);vertical-align:middle;font-size:12px}
+.at tr:last-child td{border-bottom:none}
+.cell-n{font-weight:600;color:var(--app-tx)}
+.cell-s{font-size:10.5px;color:var(--app-mu);margin-top:.1rem}
 /* Progress bar */
-.app-progress{height:6px;background:hsl(212,26%,90%);border-radius:3px;overflow:hidden;margin:.35rem 0}
-.app-progress-fill{height:100%;border-radius:3px}
-.pf-success{background:var(--app-success)}
-.pf-warning{background:var(--app-warning)}
-.pf-danger{background:var(--app-danger)}
-.pf-primary{background:#4f46e5}
-.pf-teal{background:#0d9488}
-
-/* Table */
-.app-table{width:100%;border-collapse:collapse}
-.app-table th{text-align:left;font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--app-muted);padding:.35rem .6rem;border-bottom:1px solid var(--app-border)}
-.app-table td{padding:.45rem .6rem;border-bottom:1px solid hsl(212,26%,93%);vertical-align:middle;font-size:12px}
-.app-table tr:last-child td{border-bottom:none}
-.app-table .cell-name{font-weight:600;color:var(--app-text)}
-.app-table .cell-sub{font-size:10.5px;color:var(--app-muted);margin-top:.1rem}
-
+.ap{height:5px;background:hsl(212,26%,90%);border-radius:3px;overflow:hidden;margin:.3rem 0}
+.ap-f{height:100%;border-radius:3px;transition:width .3s}
+.pf-ok{background:var(--app-ok)}.pf-wn{background:var(--app-wn)}.pf-er{background:var(--app-er)}.pf-pu{background:#7c3aed}.pf-tl{background:#0d9488}.pf-in{background:#4f46e5}
+/* Number input */
+.num-input{display:flex;align-items:center;gap:.5rem;margin-top:.5rem}
+.num-input label{font-size:11.5px;color:var(--app-tx);flex:1}
+.num-input input[type=number]{width:64px;background:var(--app-bg);border:1px solid var(--app-bdr);border-radius:5px;padding:.3rem .5rem;font-size:12.5px;font-weight:700;color:var(--app-tx);font-family:'Inter',sans-serif;text-align:center}
+.num-input input[type=number]::-webkit-outer-spin-button,.num-input input[type=number]::-webkit-inner-spin-button{opacity:1}
+.num-input .pct-sign{font-size:11px;color:var(--app-mu)}
+/* RAG */
+.rag{display:inline-flex;align-items:center;gap:.3rem;font-size:10.5px;font-weight:600;padding:.18rem .45rem;border-radius:4px}
+.rag-ok{background:rgba(46,133,85,.12);color:var(--app-ok)}
+.rag-wn{background:rgba(245,158,11,.12);color:var(--app-wn)}
+.rag-er{background:rgba(230,51,51,.12);color:var(--app-er)}
+.rag-dot{width:5px;height:5px;border-radius:50%;background:currentColor}
+/* App btn */
+.app-btn{display:inline-flex;align-items:center;gap:.35rem;padding:.38rem .8rem;border-radius:5px;font-size:12px;font-weight:600;cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:opacity .15s}
+.app-btn:hover{opacity:.85}
+.btn-pr{background:var(--app-pr);color:#fff}
+.btn-ok{background:rgba(46,133,85,.12);color:var(--app-ok);border:1px solid rgba(46,133,85,.25)}
+.btn-tl{background:rgba(13,148,136,.12);color:#0d9488;border:1px solid rgba(13,148,136,.25)}
+.btn-wn{background:rgba(245,158,11,.12);color:#b45309;border:1px solid rgba(245,158,11,.25)}
+.btn-out{background:transparent;color:var(--app-tx);border:1px solid var(--app-bdr)}
+/* App input */
+.app-inp{background:var(--app-card);border:1px solid var(--app-bdr);border-radius:5px;padding:.35rem .65rem;font-size:12px;color:var(--app-tx);font-family:'Inter',sans-serif;width:100%}
 /* KPI tiles */
-.app-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin-bottom:1rem}
-.app-kpi{background:var(--app-card);border:1px solid var(--app-border);border-radius:8px;padding:.75rem}
-.app-kpi .kpi-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.875rem;margin-bottom:.4rem}
-.app-kpi .kpi-val{font-size:1.15rem;font-weight:800;color:var(--app-text);line-height:1}
-.app-kpi .kpi-label{font-size:10px;color:var(--app-muted);text-transform:uppercase;letter-spacing:.06em;margin-top:.25rem}
-
-/* Input / form */
-.app-input{background:var(--app-card);border:1px solid var(--app-border);border-radius:6px;padding:.45rem .75rem;font-size:12.5px;color:var(--app-text);font-family:'DM Sans',sans-serif;width:100%}
-.app-slider-row{display:flex;align-items:center;gap:.75rem;padding:.4rem 0}
-.app-slider-track{flex:1;height:5px;background:hsl(212,26%,88%);border-radius:3px;position:relative}
-.app-slider-fill{height:100%;border-radius:3px}
-.app-slider-val{font-size:11px;font-weight:700;width:32px;text-align:right}
-
-/* Button */
-.app-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.4rem .875rem;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;border:none;font-family:'DM Sans',sans-serif}
-.app-btn-primary{background:var(--app-primary);color:#fff}
-.app-btn-success{background:rgba(46,133,85,.12);color:var(--app-success);border:1px solid rgba(46,133,85,.25)}
-.app-btn-outline{background:transparent;color:var(--app-text);border:1px solid var(--app-border)}
-
-/* Scope item (detailed) */
-.app-scope-item{background:var(--app-card);border:1px solid var(--app-border);border-radius:8px;padding:.875rem 1rem;margin-bottom:.6rem}
-.app-scope-item:last-child{margin-bottom:0}
-.si-row{display:flex;align-items:flex-start;justify-content:space-between;gap:.75rem;flex-wrap:wrap}
-.si-name{font-size:13px;font-weight:600;color:var(--app-text)}
-.si-loc{font-size:11px;color:var(--app-muted);margin-top:.1rem}
-.si-meta{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin-top:.5rem}
-
-/* RAG light */
-.rag{display:inline-flex;align-items:center;gap:.3rem;font-size:10.5px;font-weight:600;padding:.2rem .5rem;border-radius:4px}
-.rag-green{background:rgba(46,133,85,.12);color:var(--app-success)}
-.rag-amber{background:rgba(245,158,11,.12);color:var(--app-warning)}
-.rag-red{background:rgba(230,51,51,.12);color:var(--app-danger)}
-.rag-dot{width:6px;height:6px;border-radius:50%;background:currentColor}
-
-/* Simple bar mock */
-.bar-wrap{display:flex;align-items:center;gap:.5rem}
-.bar-track{flex:1;height:5px;background:hsl(212,26%,90%);border-radius:3px;overflow:hidden}
-.bar-fill{height:100%;border-radius:3px}
-.bar-label{font-size:10.5px;color:var(--app-muted);white-space:nowrap}
-
-/* ── PIPELINE (presentation layer) ──────────── */
-.pipe-scroll{overflow-x:auto;padding:1rem 0 .5rem;-webkit-overflow-scrolling:touch}
+.app-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:.55rem;margin-bottom:.875rem}
+@media(max-width:500px){.app-kpis{grid-template-columns:1fr 1fr}}
+.app-kpi{background:var(--app-card);border:1px solid var(--app-bdr);border-radius:7px;padding:.7rem}
+.kpi-val{font-size:1.1rem;font-weight:800;color:var(--app-tx);line-height:1.1}
+.kpi-lbl{font-size:9.5px;color:var(--app-mu);text-transform:uppercase;letter-spacing:.06em;margin-top:.2rem}
+/* Bar */
+.bw{display:flex;align-items:center;gap:.4rem}
+.bt{flex:1;height:5px;background:hsl(212,26%,90%);border-radius:3px;overflow:hidden;min-width:48px}
+.bf{height:100%;border-radius:3px}
+.bl{font-size:10px;color:var(--app-mu);white-space:nowrap}
+/* ─── INTERACTIVE PIPELINE ─── */
+.pipe-wrap{overflow-x:auto;padding-bottom:.5rem;-webkit-overflow-scrolling:touch}
 .pipe{display:flex;align-items:center;min-width:max-content}
-.ps{display:flex;flex-direction:column;align-items:center;padding:.875rem .95rem;min-width:112px;background:var(--s2);border:1px solid var(--border);position:relative}
+.ps{display:flex;flex-direction:column;align-items:center;padding:.875rem 1rem;min-width:110px;background:var(--s2);border:1px solid var(--bdr);position:relative;cursor:pointer;transition:border-color .15s,background .15s}
+.ps:hover{border-color:var(--bdr2)}
+.ps.active{border-color:rgba(16,185,129,.5);background:rgba(16,185,129,.06)}
 .ps:first-child{border-radius:10px 0 0 10px}
 .ps:last-child{border-radius:0 10px 10px 0}
-.ps .dot{width:8px;height:8px;border-radius:50%;margin-bottom:.35rem}
-.ps .name{font-size:11px;font-weight:700;color:var(--text);text-align:center;line-height:1.3}
-.ps .who{font-size:9.5px;color:var(--muted);text-align:center;margin-top:.2rem}
-.ps .pctbadge{font-size:9.5px;margin-top:.2rem;padding:.1rem .3rem;border-radius:3px}
-.ps.auto{border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.04)}
+.ps .ps-dot{width:8px;height:8px;border-radius:50%;margin-bottom:.4rem;flex-shrink:0}
+.ps .ps-name{font-size:11px;font-weight:700;color:var(--tx);text-align:center;line-height:1.3}
+.ps .ps-who{font-size:9.5px;color:var(--mu);text-align:center;margin-top:.2rem}
+.ps .ps-badge{font-size:9px;margin-top:.25rem;padding:.1rem .3rem;border-radius:3px;font-weight:700}
+.ps.auto{border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.04)}
 .ps.pct{border-color:rgba(99,102,241,.3);background:rgba(99,102,241,.04)}
 .pa{width:18px;height:2px;background:var(--dim);flex-shrink:0;position:relative}
 .pa::after{content:'';position:absolute;right:-3px;top:-4px;border:4px solid transparent;border-left-color:var(--dim);border-right:0}
+/* Stage detail panel */
+.pipe-detail{display:none;margin-top:.75rem;background:var(--s2);border:1px solid var(--bdr2);border-radius:10px;padding:1.1rem 1.25rem;animation:fadeIn .2s ease}
+.pipe-detail.show{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+.pd-title{font-size:.975rem;font-weight:800;margin-bottom:.75rem;display:flex;align-items:center;gap:.6rem}
+.pd-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem}
+@media(max-width:600px){.pd-grid{grid-template-columns:1fr}}
+.pd-item .pd-lbl{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--mu);margin-bottom:.3rem}
+.pd-item .pd-val{font-size:.875rem;color:var(--tx)}
+.pd-item .pd-ex{font-size:.8rem;color:var(--mu);margin-top:.2rem}
 .pipe-leg{display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:.875rem}
-.pl-item{display:flex;align-items:center;gap:.4rem;font-size:11px;color:var(--muted)}
-.pl-dot{width:7px;height:7px;border-radius:50%}
-
-/* ── OUT OF SCOPE ────────────────────────────── */
+.pl-i{display:flex;align-items:center;gap:.4rem;font-size:11px;color:var(--mu)}
+.pl-d{width:7px;height:7px;border-radius:50%}
+/* ─── WIZARD ─── */
+.wizard{background:var(--app-card);border:1px solid var(--app-bdr);border-radius:10px;overflow:hidden}
+.wiz-steps{display:flex;gap:0;padding:.75rem 1rem;border-bottom:1px solid var(--app-bdr);background:var(--app-bg)}
+.wiz-step{display:flex;align-items:center;gap:.4rem;font-size:11.5px;color:var(--app-mu);font-weight:500;flex:1}
+.wiz-step .ws-n{width:22px;height:22px;border-radius:50%;background:hsl(212,26%,88%);color:var(--app-mu);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.wiz-step.act .ws-n{background:var(--app-pr);color:#fff}
+.wiz-step.act{color:var(--app-pr);font-weight:600}
+.wiz-step.done .ws-n{background:var(--app-ok);color:#fff}
+.wiz-step.done{color:var(--app-ok)}
+.wiz-body{padding:1rem}
+.wiz-screen{display:none}
+.wiz-screen.show{display:block}
+.struct-cards{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.5rem 0}
+.struct-card{border:2px solid var(--app-bdr);border-radius:8px;padding:.75rem;cursor:pointer;transition:border-color .15s,background .15s}
+.struct-card:hover{border-color:var(--app-pr)}
+.struct-card.sel{border-color:var(--app-ok);background:rgba(46,133,85,.05)}
+.struct-card .sc-title{font-size:12.5px;font-weight:700;color:var(--app-tx);margin-bottom:.2rem}
+.struct-card .sc-sub{font-size:11px;color:var(--app-mu)}
+.struct-card .sc-ex{font-size:10px;color:var(--app-ok);margin-top:.3rem}
+.loc-chips{display:flex;flex-wrap:wrap;gap:.35rem;margin:.5rem 0}
+.loc-chip{display:inline-flex;align-items:center;gap:.3rem;background:rgba(46,133,85,.1);border:1px solid rgba(46,133,85,.25);border-radius:9999px;padding:.18rem .55rem;font-size:11px;font-weight:600;color:var(--app-ok)}
+.loc-chip-add{background:hsl(212,26%,93%);border-color:var(--app-bdr);color:var(--app-mu);cursor:pointer}
+.loc-row{display:flex;gap:.5rem;margin:.5rem 0}
+.scope-rows .scope-row-item{display:flex;gap:.5rem;align-items:center;padding:.4rem 0;border-bottom:1px solid var(--app-bdr2)}
+.scope-rows .scope-row-item:last-child{border-bottom:none}
+.wiz-nav{display:flex;justify-content:space-between;margin-top:.875rem;padding-top:.75rem;border-top:1px solid var(--app-bdr)}
+/* ─── QA CHECKLIST ─── */
+.qa-item{display:flex;align-items:center;gap:.75rem;padding:.5rem .75rem;border-radius:7px;border:1px solid;margin-bottom:.4rem;cursor:pointer;transition:all .2s}
+.qa-item:last-child{margin-bottom:0}
+.qa-item.qa-done{background:rgba(46,133,85,.06);border-color:rgba(46,133,85,.2)}
+.qa-item.qa-pend{background:rgba(245,158,11,.04);border-color:rgba(245,158,11,.15)}
+.qa-item.qa-wait{background:hsl(212,26%,97%);border-color:var(--app-bdr);opacity:.55}
+.qa-item.qa-wait.qa-clickable{opacity:.85;cursor:pointer}
+.qa-item.qa-wait.qa-clickable:hover{background:rgba(46,133,85,.04);border-color:rgba(46,133,85,.15)}
+.qa-icon{font-size:1rem;flex-shrink:0}
+.qa-name{font-size:12.5px;font-weight:600;color:var(--app-tx);flex:1}
+.qa-meta{font-size:10.5px;color:var(--app-mu)}
+/* ─── APPROVAL FLOW ─── */
+.af-tabs{display:flex;gap:0;margin-bottom:1rem}
+.af-tab{padding:.4rem .875rem;border-bottom:2px solid transparent;font-size:12px;font-weight:600;color:var(--app-mu);cursor:pointer;border-bottom:2px solid transparent}
+.af-tab.act{color:var(--app-pr);border-bottom-color:var(--app-pr)}
+.af-view{display:none}
+.af-view.show{display:block}
+.af-notice{background:rgba(99,102,241,.06);border:1px solid rgba(99,102,241,.2);border-radius:7px;padding:.65rem .875rem;font-size:12px;color:#4f46e5;margin-bottom:.75rem}
+.af-success{background:rgba(46,133,85,.08);border:1px solid rgba(46,133,85,.25);border-radius:7px;padding:.75rem 1rem;font-size:13px;font-weight:600;color:var(--app-ok);text-align:center;display:none}
+/* ─── DAY IN LIFE ─── */
+.dil-tabs{display:flex;gap:0;border-bottom:1px solid var(--bdr);margin-bottom:1.75rem;overflow-x:auto}
+.dil-tab{padding:.5rem 1.1rem;border-bottom:2px solid transparent;font-size:13px;font-weight:600;color:var(--mu);cursor:pointer;margin-bottom:-1px;white-space:nowrap}
+.dil-tab.act{color:var(--tx);border-bottom-color:var(--gr)}
+.dil-view{display:none}
+.dil-view.show{display:block}
+.dil-ba{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+@media(max-width:700px){.dil-ba{grid-template-columns:1fr}}
+.dil-col{border-radius:12px;overflow:hidden}
+.dil-col-hd{padding:.55rem 1rem;font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase}
+.dil-col.before .dil-col-hd{background:rgba(239,68,68,.12);color:var(--rd)}
+.dil-col.after .dil-col-hd{background:rgba(16,185,129,.12);color:var(--gr)}
+.dil-col-body{background:var(--s1);border:1px solid var(--bdr);border-top:0;padding:1rem}
+.dil-event{display:flex;gap:.75rem;margin-bottom:.75rem}
+.dil-event:last-child{margin-bottom:0}
+.dil-time{font-size:10.5px;color:var(--mu);white-space:nowrap;width:44px;flex-shrink:0;padding-top:.1rem}
+.dil-text{font-size:.82rem;color:var(--tx);line-height:1.5}
+.dil-text .sub{color:var(--mu);font-size:.78rem}
+/* ─── UTIL ─── */
+.mt1{margin-top:1rem}.mt15{margin-top:1.5rem}.mt2{margin-top:2rem}
+.rdy-btn{display:none}
+.rdy-btn.show{display:inline-flex}
+/* OOS */
 .oos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.875rem;margin-top:1.5rem}
-.oos-card{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:1.1rem;transition:border-color .15s}
-.oos-card:hover{border-color:var(--border2)}
-.oos-card .icon{font-size:1.3rem;margin-bottom:.55rem}
-.oos-card h3{font-size:.9rem;color:var(--text);margin-bottom:.3rem}
-.oos-card p{font-size:.8rem}
-.oos-reason{font-size:.75rem;color:var(--dim);margin-top:.5rem;padding-top:.5rem;border-top:1px solid var(--border)}
-
-/* ── TEAM ────────────────────────────────────── */
-.team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:.875rem;margin-top:1.5rem}
-.team-card{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:1.25rem}
-.team-role{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:.35rem}
-.team-name{font-size:1rem;font-weight:800;margin-bottom:.875rem}
-.change-row{font-size:.82rem;color:var(--muted);display:flex;gap:.45rem;margin-bottom:.4rem}
-.change-row .plus{color:var(--green);flex-shrink:0}
-.change-row .minus{color:var(--red);flex-shrink:0}
-.change-row .neutral{color:var(--dim);flex-shrink:0}
-.divider{height:1px;background:var(--border);margin:.75rem 0}
-
-/* ── TIMELINE ────────────────────────────────── */
+.oos-card{background:var(--s1);border:1px solid var(--bdr);border-radius:12px;padding:1.1rem;transition:border-color .15s}
+.oos-card:hover{border-color:var(--bdr2)}
+.oos-icon{font-size:1.25rem;margin-bottom:.55rem}
+.oos-card h3{font-size:.88rem;color:var(--tx);margin-bottom:.3rem}
+.oos-card p{font-size:.79rem}
+.oos-why{font-size:.74rem;color:var(--dim);margin-top:.45rem;padding-top:.45rem;border-top:1px solid var(--bdr)}
+/* TIMELINE */
 .tl-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-top:1.75rem}
 @media(max-width:600px){.tl-grid{grid-template-columns:1fr 1fr}}
 .tl-card{border-radius:10px;overflow:hidden}
 .tl-top{padding:.55rem .875rem;font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase}
-.tl-body{background:var(--s1);border:1px solid var(--border);border-top:0;padding:.875rem}
-.tl-body h3{font-size:.9rem;line-height:1.4}
-.tl-body p{font-size:.78rem;margin-top:.4rem}
-.tl1 .tl-top{background:rgba(16,185,129,.15);color:var(--green)}
+.tl-body{background:var(--s1);border:1px solid var(--bdr);border-top:0;padding:.875rem}
+.tl-body h3{font-size:.88rem;line-height:1.4}
+.tl-body p{font-size:.77rem;margin-top:.35rem}
+.tl1 .tl-top{background:rgba(16,185,129,.15);color:var(--gr)}
 .tl2 .tl-top{background:rgba(99,102,241,.15);color:#818cf8}
-.tl3 .tl-top{background:rgba(139,92,246,.15);color:var(--purple)}
-.tl4 .tl-top{background:rgba(245,158,11,.15);color:var(--amber)}
-
-/* ── UTILS ───────────────────────────────────── */
-.mt1{margin-top:1rem}.mt15{margin-top:1.5rem}.mt2{margin-top:2rem}
-footer{padding:3rem 0;border-top:1px solid var(--border);text-align:center}
-footer p{font-size:.8rem;color:var(--dim)}
-::-webkit-scrollbar{height:5px;width:5px}
-::-webkit-scrollbar-thumb{background:var(--dim);border-radius:3px}
+.tl3 .tl-top{background:rgba(139,92,246,.15);color:var(--pu)}
+.tl4 .tl-top{background:rgba(245,158,11,.15);color:var(--am)}
+footer{padding:3rem 0;border-top:1px solid var(--bdr);text-align:center}
+footer p{font-size:.78rem;color:var(--dim)}
+::-webkit-scrollbar{height:5px;width:5px}::-webkit-scrollbar-thumb{background:var(--dim);border-radius:3px}
 </style>
 </head>
 <body>
-
 <nav>
   <span class="nav-brand">Invicta Connect</span>
   <div class="nav-links">
@@ -288,17 +311,17 @@ footer p{font-size:.8rem;color:var(--dim)}
     <a href="#phase2">Phase 2</a>
     <a href="#phase3">Phase 3</a>
     <a href="#phase4">Phase 4</a>
-    <a href="#team">Team</a>
+    <a href="#daylife">Day in the Life</a>
     <a href="#oos">Out of Scope</a>
   </div>
 </nav>
 
-<!-- ════════════════ HERO ════════════════ -->
+<!-- HERO -->
 <section id="hero">
 <div class="wrap">
   <div class="tag">Progress Tracking System — Design Brief</div>
-  <h1>Building the system that answers<br><em>"Are we making money?"</em></h1>
-  <p class="hero-sub">A four-phase build across existing Connect tabs. Real-time visibility from scope setup through fabrication, powder coating, delivery, and installation. Three new team habits. Ten weeks.</p>
+  <h1 style="font-size:clamp(1.9rem,4vw,2.9rem);font-weight:900;line-height:1.12;letter-spacing:-.02em;margin-bottom:1.1rem">Building the system that answers<br><em style="font-style:normal;color:var(--gr)">"Are we making money?"</em></h1>
+  <p class="hero-sub">A four-phase build across existing Connect tabs. Real-time visibility from scope setup through fabrication, powder coat, delivery, and installation. Three new habits. Ten weeks.</p>
   <div class="hero-stats">
     <div class="stat"><div class="n">6</div><div class="l">Existing tabs updated</div></div>
     <div class="stat"><div class="n">8</div><div class="l">Pipeline stages</div></div>
@@ -308,206 +331,204 @@ footer p{font-size:.8rem;color:var(--dim)}
 </div>
 </section>
 
-<!-- ════════════════ PIPELINE ════════════════ -->
+<!-- PIPELINE -->
 <section id="pipeline">
 <div class="wrap">
   <div class="tag">The Stage Pipeline</div>
-  <h2>One pipeline, every scope item</h2>
-  <p>Every scope item moves through these eight stages. Two stages auto-trigger from actions the team already does. The other six are simple manual taps — no new systems, just new fields inside Connect.</p>
-
-  <div class="pipe-scroll mt2">
+  <h2>Click any stage to see how it works</h2>
+  <p>Every scope item on every project moves through these eight stages. Two auto-trigger from actions the team already does in Connect.</p>
+  <div class="pipe-wrap mt2">
     <div class="pipe">
-      <div class="ps"><div class="dot" style="background:#666f85"></div><div class="name">New Project</div><div class="who">PM creates</div></div>
-      <div class="pa"></div>
-      <div class="ps"><div class="dot" style="background:#2563eb"></div><div class="name">Drafting</div><div class="who">PM / drafting</div></div>
-      <div class="pa"></div>
-      <div class="ps pct"><div class="dot" style="background:#4f46e5"></div><div class="name">Fabricating</div><div class="who">Al — daily</div><div class="pctbadge" style="background:rgba(99,102,241,.15);color:#818cf8">% complete</div></div>
-      <div class="pa"></div>
-      <div class="ps auto"><div class="dot" style="background:#f59e0b"></div><div class="name">Powder Coat</div><div class="who">Auto ⚡</div></div>
-      <div class="pa"></div>
-      <div class="ps"><div class="dot" style="background:#0d9488"></div><div class="name">Ready for Delivery</div><div class="who">Al / PM</div></div>
-      <div class="pa"></div>
-      <div class="ps auto"><div class="dot" style="background:#2e8555"></div><div class="name">Delivered</div><div class="who">Auto ⚡</div></div>
-      <div class="pa"></div>
-      <div class="ps pct"><div class="dot" style="background:#7c3aed"></div><div class="name">Installing</div><div class="who">Install lead</div><div class="pctbadge" style="background:rgba(139,92,246,.15);color:var(--purple)">% complete</div></div>
-      <div class="pa"></div>
-      <div class="ps"><div class="dot" style="background:#16a34a"></div><div class="name">Installed</div><div class="who">Install lead</div></div>
+      <div class="ps" onclick="showStage('new')" id="ps-new">
+        <div class="ps-dot" style="background:#666f85"></div>
+        <div class="ps-name">New Project</div><div class="ps-who">PM sets up</div>
+      </div><div class="pa"></div>
+      <div class="ps" onclick="showStage('draft')" id="ps-draft">
+        <div class="ps-dot" style="background:#2563eb"></div>
+        <div class="ps-name">Drafting</div><div class="ps-who">PM / drafting</div>
+      </div><div class="pa"></div>
+      <div class="ps pct" onclick="showStage('fab')" id="ps-fab">
+        <div class="ps-dot" style="background:#4f46e5"></div>
+        <div class="ps-name">Fabricating</div><div class="ps-who">Al — daily</div>
+        <div class="ps-badge" style="background:rgba(79,70,229,.15);color:#4f46e5">% input</div>
+      </div><div class="pa"></div>
+      <div class="ps auto" onclick="showStage('pc')" id="ps-pc">
+        <div class="ps-dot" style="background:#f59e0b"></div>
+        <div class="ps-name">Powder Coat</div><div class="ps-who">⚡ Auto</div>
+      </div><div class="pa"></div>
+      <div class="ps" onclick="showStage('rfd')" id="ps-rfd">
+        <div class="ps-dot" style="background:#0d9488"></div>
+        <div class="ps-name">Ready for Delivery</div><div class="ps-who">Al / PM</div>
+      </div><div class="pa"></div>
+      <div class="ps auto" onclick="showStage('del')" id="ps-del">
+        <div class="ps-dot" style="background:#2e8555"></div>
+        <div class="ps-name">Delivered</div><div class="ps-who">⚡ Auto</div>
+      </div><div class="pa"></div>
+      <div class="ps pct" onclick="showStage('ins')" id="ps-ins">
+        <div class="ps-dot" style="background:#7c3aed"></div>
+        <div class="ps-name">Installing</div><div class="ps-who">Install lead</div>
+        <div class="ps-badge" style="background:rgba(124,58,237,.15);color:#7c3aed">% input</div>
+      </div><div class="pa"></div>
+      <div class="ps" onclick="showStage('done')" id="ps-done">
+        <div class="ps-dot" style="background:#16a34a"></div>
+        <div class="ps-name">Installed</div><div class="ps-who">Install lead</div>
+      </div>
     </div>
   </div>
-
+  <div id="pipe-detail" class="pipe-detail">
+    <div id="pd-content"></div>
+  </div>
   <div class="pipe-leg">
-    <div class="pl-item"><div class="pl-dot" style="background:var(--green)"></div> Auto-triggered by existing Connect action</div>
-    <div class="pl-item"><div class="pl-dot" style="background:#818cf8"></div> Manual with % complete</div>
-    <div class="pl-item"><div class="pl-dot" style="background:#4b5563"></div> Manual stage tap</div>
+    <div class="pl-i"><div class="pl-d" style="background:var(--gr)"></div>Auto-triggered by existing Connect action</div>
+    <div class="pl-i"><div class="pl-d" style="background:#818cf8"></div>Manual with number input (% complete)</div>
+    <div class="pl-i"><div class="pl-d" style="background:#4b5563"></div>Manual stage update</div>
   </div>
-
-  <div class="note mt15">
-    <p><strong>Pre-PC items</strong> (louvers, glazing) skip Powder Coat — Fabricating → Ready for Delivery directly. Set per scope item at creation, editable. <strong>Auto-triggers:</strong> Powder Coat sets when "leaving factory" delivery to Yates is confirmed in Deliveries. Delivered sets when delivery to site is confirmed.</p>
-  </div>
+  <div class="note mt1"><p><strong>Pre-PC items</strong> (louvers, glazing) skip Powder Coat — go directly Fabricating → Ready for Delivery. Set at scope item creation, editable any time.</p></div>
 </div>
 </section>
 
-<!-- ════════════════ PHASE 1 ════════════════ -->
+<!-- PHASE 1 -->
 <section id="phase1" class="p1">
 <div class="wrap">
-  <div class="phase-intro">
-    <div class="phase-num">1</div>
-    <div><div class="phase-title">Foundation <span class="phase-weeks">WEEKS 1–2</span></div></div>
-  </div>
-  <p class="phase-desc">Scope item structure and stage pipeline go live. PM setup work only — no new habits for Al, install leads, or Taylor.</p>
+  <div class="ph"><div class="pn">1</div><div><span class="pt">Foundation<span class="pw">WEEKS 1–2</span></span></div></div>
+  <p class="pd">Scope item structure and stage pipeline go live. PM setup work only — no new habits for Al, install leads, or Taylor.</p>
 
-  <!-- Tab: Projects -->
-  <div class="tab-change">
-    <div class="tab-label">
-      <div class="tab-chip"><div class="dot" style="background:#3b82f6"></div>Projects tab</div>
-      <span class="change-type updated">Updated</span>
-    </div>
-    <p style="font-size:.85rem;color:var(--muted);margin-bottom:1rem">Project cards gain a progress summary — stage breakdown and overall completion visible at a glance.</p>
-    <div class="g2">
-      <div>
-        <div style="font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--red);margin-bottom:.5rem">Before</div>
-        <div class="app">
-          <div class="app-frame" style="min-height:0">
-            <div class="app-sidebar" style="width:160px">
-              <div class="app-sidebar-logo"><span>Invicta Connect</span></div>
-              <div class="app-nav-item active">· Projects</div>
-              <div class="app-nav-item">· Quick Log</div>
-              <div class="app-nav-item">· Deliveries</div>
-            </div>
-            <div class="app-main">
-              <div class="app-header"><div class="app-title">Projects</div></div>
-              <div class="app-card">
-                <div class="si-row">
-                  <div><div class="app-card-title">East Brisbane Social Housing</div><div class="app-card-sub">3 budgets · $842,000</div></div>
-                  <div class="app-badge success">Active</div>
-                </div>
-                <div style="display:flex;gap:1rem;margin-top:.6rem;font-size:11px;color:var(--app-muted)">
-                  <span>Sell: $842k</span><span>Budget: $620k</span><span>Committed: $148k</span>
-                </div>
-              </div>
-              <div class="app-card" style="margin-bottom:0">
-                <div class="si-row">
-                  <div><div class="app-card-title">Logan State School</div><div class="app-card-sub">15 budgets · $2,100,000</div></div>
-                  <div class="app-badge success">Active</div>
-                </div>
-                <div style="display:flex;gap:1rem;margin-top:.6rem;font-size:11px;color:var(--app-muted)">
-                  <span>Sell: $2.1M</span><span>Budget: $1.53M</span><span>Committed: $684k</span>
-                </div>
-              </div>
-            </div>
+  <!-- Projects tab -->
+  <div class="tc">
+    <div class="tl"><div class="tc-chip"><div class="dot" style="background:#3b82f6"></div>Projects tab</div><span class="ct-up">Updated</span></div>
+    <p class="tc-desc">Project cards gain a live progress bar and RAG health status, replacing the static sell/budget/committed text view.</p>
+    <div class="ba-row">
+      <div><div class="ba-lbl before">Before</div>
+        <div class="app"><div class="app-frame" style="min-height:0">
+          <div class="app-sb" style="width:155px">
+            <div class="app-sb-logo">Invicta Connect</div>
+            <div class="app-ni act">· Projects</div>
+            <div class="app-ni">· Quick Log</div>
+            <div class="app-ni">· Deliveries</div>
           </div>
-        </div>
+          <div class="app-main">
+            <div class="app-h"><div class="app-title">Projects</div></div>
+            <div class="ac"><div style="display:flex;justify-content:space-between;align-items:flex-start"><div><div class="ac-name">East Brisbane Social Housing</div><div class="ac-sub">3 budgets · Created Jan 2026</div></div><span class="ab ab-ok">Active</span></div><div style="display:flex;gap:1rem;margin-top:.5rem;font-size:11px;color:var(--app-mu)"><span>Sell $842k</span><span>Budget $620k</span><span>Committed $148k</span></div></div>
+            <div class="ac"><div style="display:flex;justify-content:space-between;align-items:flex-start"><div><div class="ac-name">Logan State School</div><div class="ac-sub">15 budgets · Created Nov 2025</div></div><span class="ab ab-ok">Active</span></div><div style="display:flex;gap:1rem;margin-top:.5rem;font-size:11px;color:var(--app-mu)"><span>Sell $2.1M</span><span>Budget $1.53M</span><span>Committed $684k</span></div></div>
+          </div>
+        </div></div>
       </div>
-      <div>
-        <div style="font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--green);margin-bottom:.5rem">After Phase 1</div>
-        <div class="app">
-          <div class="app-frame" style="min-height:0">
-            <div class="app-sidebar" style="width:160px">
-              <div class="app-sidebar-logo"><span>Invicta Connect</span></div>
-              <div class="app-nav-item active">· Projects</div>
-              <div class="app-nav-item">· Quick Log</div>
-              <div class="app-nav-item">· Deliveries</div>
-            </div>
-            <div class="app-main">
-              <div class="app-header"><div class="app-title">Projects</div></div>
-              <div class="app-card">
-                <div class="si-row">
-                  <div><div class="app-card-title">East Brisbane Social Housing</div><div class="app-card-sub">Level-based · 24 scope items</div></div>
-                  <div style="display:flex;gap:.4rem;align-items:center"><div class="rag rag-amber"><div class="rag-dot"></div>At Risk</div></div>
-                </div>
-                <div style="margin-top:.6rem">
-                  <div class="app-progress"><div class="app-progress-fill pf-warning" style="width:42%"></div></div>
-                  <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--app-muted);margin-top:.2rem"><span>42% complete</span><span>8 in fab · 0 installing</span></div>
-                </div>
-              </div>
-              <div class="app-card" style="margin-bottom:0">
-                <div class="si-row">
-                  <div><div class="app-card-title">Logan State School</div><div class="app-card-sub">Building-based · 109 scope items</div></div>
-                  <div><div class="rag rag-green"><div class="rag-dot"></div>On Track</div></div>
-                </div>
-                <div style="margin-top:.6rem">
-                  <div class="app-progress"><div class="app-progress-fill pf-success" style="width:78%"></div></div>
-                  <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--app-muted);margin-top:.2rem"><span>78% complete</span><span>12 in fab · 4 installing</span></div>
-                </div>
-              </div>
-            </div>
+      <div><div class="ba-lbl after">After Phase 1</div>
+        <div class="app"><div class="app-frame" style="min-height:0">
+          <div class="app-sb" style="width:155px">
+            <div class="app-sb-logo">Invicta Connect</div>
+            <div class="app-ni act">· Projects</div>
+            <div class="app-ni">· Quick Log</div>
+            <div class="app-ni">· Deliveries</div>
           </div>
-        </div>
+          <div class="app-main">
+            <div class="app-h"><div class="app-title">Projects</div></div>
+            <div class="ac"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem"><div><div class="ac-name">East Brisbane Social Housing</div><div class="ac-sub">Level-based · 24 scope items</div></div><div class="rag rag-wn"><div class="rag-dot"></div>At Risk</div></div><div class="ap" style="margin-top:.5rem"><div class="ap-f pf-wn" style="width:42%"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:var(--app-mu);margin-top:.2rem"><span>42% complete</span><span>8 in fab · 0 installing</span></div></div>
+            <div class="ac"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem"><div><div class="ac-name">Logan State School</div><div class="ac-sub">Building-based · 109 scope items</div></div><div class="rag rag-ok"><div class="rag-dot"></div>On Track</div></div><div class="ap" style="margin-top:.5rem"><div class="ap-f pf-ok" style="width:78%"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:var(--app-mu);margin-top:.2rem"><span>78% complete</span><span>12 in fab · 4 installing</span></div></div>
+          </div>
+        </div></div>
       </div>
     </div>
   </div>
 
-  <!-- Tab: Project Detail → Scope Items -->
-  <div class="tab-change mt2">
-    <div class="tab-label">
-      <div class="tab-chip"><div class="dot" style="background:#3b82f6"></div>Project Detail → Scope Items</div>
-      <span class="change-type updated">Major update</span>
-    </div>
-    <p style="font-size:.85rem;color:var(--muted);margin-bottom:1rem">Scope items gain location (level or building), a stage indicator, and product type flag. PM sets this up once at project creation — the whole team sees it from there.</p>
-    <div class="g2">
-      <div>
-        <div style="font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--red);margin-bottom:.5rem">Before — scope item rows</div>
-        <div class="app">
-          <div class="app-frame" style="min-height:0">
-            <div class="app-sidebar" style="width:160px">
-              <div class="app-sidebar-logo"><span>Invicta Connect</span></div>
-              <div class="app-nav-item active">· Projects</div>
-            </div>
-            <div class="app-main">
-              <div class="app-tabs">
-                <div class="app-tab active">Scope Items</div>
-                <div class="app-tab">Run Chase</div>
-                <div class="app-tab">Time Entries</div>
-              </div>
-              <table class="app-table">
-                <thead><tr><th>Item</th><th>Drafting %</th><th>Fab %</th><th>Install %</th></tr></thead>
-                <tbody>
-                  <tr><td><div class="cell-name">BAL01 Balustrade</div></td><td>100%</td><td style="color:var(--app-danger);font-weight:600">0%</td><td style="color:var(--app-danger);font-weight:600">0%</td></tr>
-                  <tr><td><div class="cell-name">SCR04 Batten Screens</div></td><td>100%</td><td style="color:var(--app-danger);font-weight:600">0%</td><td style="color:var(--app-danger);font-weight:600">0%</td></tr>
-                  <tr><td><div class="cell-name">WH01 Window Hoods</div></td><td>80%</td><td style="color:var(--app-danger);font-weight:600">0%</td><td style="color:var(--app-danger);font-weight:600">0%</td></tr>
-                </tbody>
-              </table>
-            </div>
+  <!-- Project Detail scope items -->
+  <div class="tc mt2">
+    <div class="tl"><div class="tc-chip"><div class="dot" style="background:#3b82f6"></div>Project Detail → Scope Items</div><span class="ct-up">Major update</span></div>
+    <p class="tc-desc">Scope items gain Location (level or building), a Stage indicator, and a product Type flag. The old Drafting/Fab/Install% columns are replaced with real stage data.</p>
+    <div class="ba-row">
+      <div><div class="ba-lbl before">Before — every project looks like this</div>
+        <div class="app"><div class="app-frame" style="min-height:0">
+          <div class="app-sb" style="width:155px"><div class="app-sb-logo">Invicta Connect</div><div class="app-ni act">· Projects</div></div>
+          <div class="app-main">
+            <div class="app-tabs"><div class="app-tab act">Scope Items</div><div class="app-tab">Run Chase</div><div class="app-tab">Time Entries</div></div>
+            <table class="at"><thead><tr><th>Item</th><th>Drafting%</th><th>Fab%</th><th>Install%</th></tr></thead><tbody>
+              <tr><td><div class="cell-n">BAL01 Balustrade</div></td><td>100%</td><td style="color:var(--app-er);font-weight:700">0%</td><td style="color:var(--app-er);font-weight:700">0%</td></tr>
+              <tr><td><div class="cell-n">SCR04 Batten Screens</div></td><td>100%</td><td style="color:var(--app-er);font-weight:700">0%</td><td style="color:var(--app-er);font-weight:700">0%</td></tr>
+              <tr><td><div class="cell-n">WH01 Window Hoods</div></td><td>80%</td><td style="color:var(--app-er);font-weight:700">0%</td><td style="color:var(--app-er);font-weight:700">0%</td></tr>
+            </tbody></table>
+            <div style="font-size:10.5px;color:var(--app-er);margin-top:.6rem">⚠ Fab and install are 0% on virtually every active project</div>
           </div>
-        </div>
+        </div></div>
       </div>
-      <div>
-        <div style="font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--green);margin-bottom:.5rem">After Phase 1</div>
-        <div class="app">
-          <div class="app-frame" style="min-height:0">
-            <div class="app-sidebar" style="width:160px">
-              <div class="app-sidebar-logo"><span>Invicta Connect</span></div>
-              <div class="app-nav-item active">· Projects</div>
-            </div>
-            <div class="app-main">
-              <div class="app-tabs">
-                <div class="app-tab active">Scope Items</div>
-                <div class="app-tab">Run Chase</div>
-                <div class="app-tab">Time Entries</div>
+      <div><div class="ba-lbl after">After Phase 1</div>
+        <div class="app"><div class="app-frame" style="min-height:0">
+          <div class="app-sb" style="width:155px"><div class="app-sb-logo">Invicta Connect</div><div class="app-ni act">· Projects</div></div>
+          <div class="app-main">
+            <div class="app-tabs"><div class="app-tab act">Scope Items</div><div class="app-tab">Run Chase</div><div class="app-tab">Time Entries</div></div>
+            <table class="at"><thead><tr><th>Item</th><th>Location</th><th>Stage</th><th>Type</th></tr></thead><tbody>
+              <tr><td><div class="cell-n">BAL01 Balustrade</div></td><td><div class="cell-s">L1–L3 Kennedy</div></td><td><span class="sb sb-draft"><span class="sb-d"></span>Drafting</span></td><td><span class="ab ab-mu">Pre-PC</span></td></tr>
+              <tr><td><div class="cell-n">SCR04 Batten Screens</div></td><td><div class="cell-s">All levels</div></td><td><span class="sb sb-fab"><span class="sb-d"></span>Fabricating</span></td><td><span class="ab ab-wn">Welded</span></td></tr>
+              <tr><td><div class="cell-n">WH01 Window Hoods</div></td><td><div class="cell-s">All levels</div></td><td><span class="sb sb-new"><span class="sb-d"></span>New Project</span></td><td><span class="ab ab-mu">Pre-PC</span></td></tr>
+            </tbody></table>
+          </div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Wizard -->
+  <div class="tc mt2">
+    <div class="tl"><div class="tc-chip new-tab">✦ New Project Setup Wizard</div><span class="ct-new">New feature</span></div>
+    <p class="tc-desc">When a PM creates a new project, a 3-step wizard guides the scope structure setup. Try it — it's interactive.</p>
+    <div class="app" style="max-width:600px">
+      <div class="app-frame" style="min-height:0;flex-direction:column">
+        <div class="app-h" style="padding:.875rem 1rem .5rem;border-bottom:1px solid var(--app-bdr)">
+          <div class="app-title">New Project Setup</div>
+        </div>
+        <div class="wizard" style="border:none;border-radius:0">
+          <div class="wiz-steps">
+            <div class="wiz-step" id="ws1" style="color:var(--app-pr)"><div class="ws-n" id="wsn1" style="background:var(--app-pr);color:#fff">1</div>Structure</div>
+            <div class="wiz-step" id="ws2"><div class="ws-n" id="wsn2">2</div>Locations</div>
+            <div class="wiz-step" id="ws3"><div class="ws-n" id="wsn3">3</div>Scope Items</div>
+          </div>
+          <div class="wiz-body">
+            <div class="wiz-screen show" id="wz1">
+              <div style="font-size:12px;color:var(--app-mu);margin-bottom:.6rem">How is this project broken down?</div>
+              <div class="struct-cards">
+                <div class="struct-card sel" id="sc-lv" onclick="selStruct('lv')">
+                  <div class="sc-title">🏗️ Level-based</div>
+                  <div class="sc-sub">Single building or tower. Track by floor level.</div>
+                  <div class="sc-ex">e.g. East Brisbane, 41 George Street</div>
+                </div>
+                <div class="struct-card" id="sc-bld" onclick="selStruct('bld')">
+                  <div class="sc-title">🏘️ Building-based</div>
+                  <div class="sc-sub">Multiple buildings on one site.</div>
+                  <div class="sc-ex" style="color:var(--app-mu)">e.g. Logan State School</div>
+                </div>
               </div>
-              <table class="app-table">
-                <thead><tr><th>Item</th><th>Location</th><th>Stage</th><th>Type</th></tr></thead>
-                <tbody>
-                  <tr>
-                    <td><div class="cell-name">BAL01 Balustrade</div></td>
-                    <td><div class="cell-sub">L1–L3 Kennedy</div></td>
-                    <td><span class="stage-badge sb-draft"><span class="sb-dot"></span>Drafting</span></td>
-                    <td><span class="app-badge muted">Pre-PC</span></td>
-                  </tr>
-                  <tr>
-                    <td><div class="cell-name">SCR04 Batten Screens</div></td>
-                    <td><div class="cell-sub">All levels</div></td>
-                    <td><span class="stage-badge sb-fab"><span class="sb-dot"></span>Fabricating</span></td>
-                    <td><span class="app-badge warning">Welded</span></td>
-                  </tr>
-                  <tr>
-                    <td><div class="cell-name">WH01 Window Hoods</div></td>
-                    <td><div class="cell-sub">All levels</div></td>
-                    <td><span class="stage-badge sb-new"><span class="sb-dot"></span>New Project</span></td>
-                    <td><span class="app-badge muted">Pre-PC</span></td>
-                  </tr>
-                </tbody>
-              </table>
+              <div class="wiz-nav"><div></div><button class="app-btn btn-pr" onclick="wizGo(2)">Next →</button></div>
+            </div>
+            <div class="wiz-screen" id="wz2">
+              <div style="font-size:12px;color:var(--app-mu);margin-bottom:.5rem">Add your <span id="loc-type-lbl">levels</span> (from your Groundplan takeoff)</div>
+              <div class="loc-chips" id="loc-chips">
+                <span class="loc-chip">Level 1</span>
+                <span class="loc-chip">Level 2</span>
+                <span class="loc-chip">Level 3</span>
+                <span class="loc-chip">Level 4</span>
+              </div>
+              <div class="loc-row"><input class="app-inp" id="loc-inp" placeholder="Add level…" style="flex:1" onkeydown="if(event.key==='Enter')addLoc()"/><button class="app-btn btn-pr" onclick="addLoc()">Add</button></div>
+              <div class="wiz-nav"><button class="app-btn btn-out" onclick="wizGo(1)">← Back</button><button class="app-btn btn-pr" onclick="wizGo(3)">Next →</button></div>
+            </div>
+            <div class="wiz-screen" id="wz3">
+              <div style="font-size:12px;color:var(--app-mu);margin-bottom:.6rem">Scope items — name, location, and product type</div>
+              <div class="scope-rows">
+                <div class="scope-row-item">
+                  <input class="app-inp" value="BAL01 — Balustrade" style="flex:2"/>
+                  <select class="app-inp" style="flex:1"><option>L1–L3</option><option>All levels</option></select>
+                  <select class="app-inp" style="flex:1"><option>Pre-PC</option><option>Welded</option></select>
+                </div>
+                <div class="scope-row-item">
+                  <input class="app-inp" value="SCR04 — Batten Screens" style="flex:2"/>
+                  <select class="app-inp" style="flex:1"><option>All levels</option><option>L1–L3</option></select>
+                  <select class="app-inp" style="flex:1"><option>Welded</option><option>Pre-PC</option></select>
+                </div>
+                <div class="scope-row-item">
+                  <input class="app-inp" placeholder="Add scope item…" style="flex:2"/>
+                  <select class="app-inp" style="flex:1"><option>Select level</option></select>
+                  <select class="app-inp" style="flex:1"><option>Pre-PC</option><option>Welded</option></select>
+                </div>
+              </div>
+              <div class="wiz-nav"><button class="app-btn btn-out" onclick="wizGo(2)">← Back</button><button class="app-btn btn-ok">Create Project ✓</button></div>
             </div>
           </div>
         </div>
@@ -515,426 +536,256 @@ footer p{font-size:.8rem;color:var(--dim)}
     </div>
   </div>
 
-  <div class="outcome-band">
-    <div class="ol">Phase 1 Outcome</div>
-    <p>Every scope item on every project has a location and a stage. Taylor opens Projects on Monday and sees progress at a glance — no phone calls needed to get the snapshot.</p>
-  </div>
+  <div class="ob"><div class="ol">Phase 1 Outcome</div><p>Taylor opens Projects on Monday and sees every project with its current progress and health status at a glance. No phone calls needed. Foundation for everything that follows.</p></div>
 </div>
 </section>
 
-<!-- ════════════════ PHASE 2 ════════════════ -->
+<!-- PHASE 2 -->
 <section id="phase2" class="p2">
 <div class="wrap">
-  <div class="phase-intro">
-    <div class="phase-num">2</div>
-    <div><div class="phase-title">Fabrication Tracking <span class="phase-weeks">WEEKS 3–4</span></div></div>
-  </div>
-  <p class="phase-desc">Al marks % completion on active scope items at end of day. QA tick-off per stage. Deliveries auto-trigger the Powder Coat stage.</p>
+  <div class="ph"><div class="pn">2</div><div><span class="pt">Fabrication Tracking<span class="pw">WEEKS 3–4</span></span></div></div>
+  <p class="pd">Al marks % completion on active scope items at end of day. QA tick-off per stage. Deliveries auto-trigger the Powder Coat stage.</p>
 
-  <!-- Tab: Production -->
-  <div class="tab-change">
-    <div class="tab-label">
-      <div class="tab-chip"><div class="dot" style="background:#8b5cf6"></div>Production tab</div>
-      <span class="change-type extended">Extended — new Factory View</span>
-    </div>
-    <p style="font-size:.85rem;color:var(--muted);margin-bottom:1rem">Al opens the Factory View on the workshop iPad. He sees only items currently in Fabricating stage, sets % per item, and taps "Ready for Delivery" when done. 5–10 min at end of day.</p>
+  <!-- Production tab -->
+  <div class="tc">
+    <div class="tl"><div class="tc-chip"><div class="dot" style="background:#8b5cf6"></div>Production tab</div><span class="ct-ext">Extended — new Factory View</span></div>
+    <p class="tc-desc">Al opens Factory View on the workshop iPad. He sees only items currently Fabricating, enters a % for each, and taps "Mark Ready for Delivery" when done. Try the inputs — they're live.</p>
     <div class="app">
       <div class="app-frame">
-        <div class="app-sidebar">
-          <div class="app-sidebar-logo"><span>Invicta Connect</span></div>
-          <div class="app-nav-section">Production</div>
-          <div class="app-nav-item active highlight">· Production</div>
-          <div class="app-nav-item">· Productivity</div>
-          <div class="app-nav-item">· Deliveries</div>
-          <div class="app-nav-item">· Cutting Optimizer</div>
+        <div class="app-sb">
+          <div class="app-sb-logo">Invicta Connect</div>
+          <div class="app-ns">Production</div>
+          <div class="app-ni act hi">· Production</div>
+          <div class="app-ni">· Productivity</div>
+          <div class="app-ni">· Deliveries</div>
+          <div class="app-ni">· Cutting Optimizer</div>
         </div>
         <div class="app-main">
-          <div class="app-header">
-            <div><div class="app-title">Production</div><div class="app-subtitle">Factory View · Thu 26 Jun 2026</div></div>
-            <div style="display:flex;gap:.5rem">
-              <button class="app-btn app-btn-outline" style="font-size:11px">All Items</button>
-              <button class="app-btn app-btn-primary" style="font-size:11px">Factory View</button>
-            </div>
+          <div class="app-h">
+            <div><div class="app-title">Production</div><div class="app-sub">Factory View · Thu 26 Jun 2026</div></div>
+            <div style="display:flex;gap:.4rem"><button class="app-btn btn-out" style="font-size:11px">All Items</button><button class="app-btn btn-pr" style="font-size:11px">Factory View</button></div>
           </div>
-          <div style="font-size:11px;font-weight:700;color:var(--app-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.6rem">Items in Fabrication (3)</div>
-
-          <div class="app-scope-item">
-            <div class="si-row">
-              <div><div class="si-name">AM05 Perforated Screens — LSP-LJ2</div><div class="si-loc">Logan State School · Building 4</div></div>
-              <span class="stage-badge sb-fab"><span class="sb-dot"></span>Fabricating</span>
-            </div>
-            <div class="app-slider-row" style="margin-top:.6rem">
-              <div style="font-size:11.5px;color:var(--app-text);flex:1">% Complete today</div>
-              <div class="app-slider-track" style="flex:2"><div class="app-slider-fill pf-primary" style="width:60%"></div></div>
-              <div class="app-slider-val" style="color:#4f46e5">60%</div>
-            </div>
-            <div class="si-meta">
-              <span class="app-badge muted" style="font-size:10px">Was 40% yesterday</span>
-            </div>
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--app-mu);margin-bottom:.6rem">Items in Fabrication (3)</div>
+          <!-- Item 1 -->
+          <div class="ac">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem"><div><div class="ac-name">AM05 Perforated Screens — LSP-LJ2</div><div class="ac-sub">Logan State School · Building 4 · Welded</div></div><span class="sb sb-fab"><span class="sb-d"></span>Fabricating</span></div>
+            <div class="num-input"><label>% complete today</label><input type="number" min="0" max="100" value="60" id="fab1"/><span class="pct-sign">%</span></div>
+            <div class="ap" style="margin-top:.3rem"><div class="ap-f pf-in" id="fp1" style="width:60%"></div></div>
           </div>
-
-          <div class="app-scope-item">
-            <div class="si-row">
-              <div><div class="si-name">Level 3 Wellington</div><div class="si-loc">East Brisbane Social Housing</div></div>
-              <span class="stage-badge sb-fab"><span class="sb-dot"></span>Fabricating</span>
-            </div>
-            <div class="app-slider-row" style="margin-top:.6rem">
-              <div style="font-size:11.5px;color:var(--app-text);flex:1">% Complete today</div>
-              <div class="app-slider-track" style="flex:2"><div class="app-slider-fill pf-primary" style="width:25%"></div></div>
-              <div class="app-slider-val" style="color:#4f46e5">25%</div>
-            </div>
+          <!-- Item 2 -->
+          <div class="ac">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem"><div><div class="ac-name">Level 3 Wellington</div><div class="ac-sub">East Brisbane Social Housing · Welded</div></div><span class="sb sb-fab"><span class="sb-d"></span>Fabricating</span></div>
+            <div class="num-input"><label>% complete today</label><input type="number" min="0" max="100" value="25" id="fab2"/><span class="pct-sign">%</span></div>
+            <div class="ap" style="margin-top:.3rem"><div class="ap-f pf-in" id="fp2" style="width:25%"></div></div>
           </div>
-
-          <div class="app-scope-item" style="border-color:rgba(13,148,136,.3);background:rgba(13,148,136,.03)">
-            <div class="si-row">
-              <div><div class="si-name">1.LV01.10 THOR Louvre</div><div class="si-loc">Calista West Village · Pre-PC item</div></div>
-              <span class="stage-badge sb-fab"><span class="sb-dot"></span>Fabricating</span>
-            </div>
-            <div class="app-slider-row" style="margin-top:.6rem">
-              <div style="font-size:11.5px;color:var(--app-text);flex:1">% Complete today</div>
-              <div class="app-slider-track" style="flex:2"><div class="app-slider-fill" style="width:100%;background:#0d9488"></div></div>
-              <div class="app-slider-val" style="color:#0d9488">100%</div>
-            </div>
-            <div style="margin-top:.6rem">
-              <button class="app-btn app-btn-success" style="width:100%;justify-content:center">Mark Ready for Delivery →</button>
-            </div>
+          <!-- Item 3 — interactive 100% trigger -->
+          <div class="ac" id="fab3-card">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem"><div><div class="ac-name">1.LV01.10 THOR Louvre 2545w×1100h</div><div class="ac-sub">Calista West Village · Pre-PC item</div></div><span class="sb sb-fab" id="fab3-stage"><span class="sb-d"></span>Fabricating</span></div>
+            <div class="num-input"><label>% complete today</label><input type="number" min="0" max="100" value="85" id="fab3" oninput="checkFab3()"/><span class="pct-sign">%</span></div>
+            <div class="ap" style="margin-top:.3rem"><div class="ap-f pf-in" id="fp3" style="width:85%"></div></div>
+            <div style="margin-top:.6rem;font-size:11px;color:var(--app-mu)" id="fab3-hint">↑ Set to 100% to mark complete</div>
+            <button class="app-btn btn-tl rdy-btn" id="rdy-btn" style="margin-top:.5rem;width:100%;justify-content:center">→ Mark Ready for Delivery</button>
           </div>
-
-          <div style="margin-top:1rem;padding-top:.875rem;border-top:1px solid var(--app-border);display:flex;justify-content:flex-end">
-            <button class="app-btn app-btn-primary">Save Today's Update</button>
+          <div style="margin-top:.875rem;padding-top:.75rem;border-top:1px solid var(--app-bdr);display:flex;justify-content:flex-end">
+            <button class="app-btn btn-pr">Save Today's Update</button>
           </div>
         </div>
       </div>
     </div>
+    <div class="note mt1"><p><strong>Pre-PC items</strong> skip the Powder Coat stage entirely — when Al marks them 100% and taps Ready for Delivery, they move straight to that stage. Welded items go to Powder Coat when the delivery to Yates is confirmed.</p></div>
   </div>
 
-  <!-- Tab: Deliveries auto-trigger -->
-  <div class="tab-change mt2">
-    <div class="tab-label">
-      <div class="tab-chip"><div class="dot" style="background:#10b981"></div>Deliveries tab</div>
-      <span class="change-type updated">Updated — auto-triggers stage</span>
-    </div>
-    <p style="font-size:.85rem;color:var(--muted);margin-bottom:1rem">No change to how deliveries are created. When a delivery to Yates is confirmed, Connect automatically moves those scope items to Powder Coat stage. When a delivery to site is confirmed, they move to Delivered.</p>
+  <!-- Deliveries auto-trigger -->
+  <div class="tc mt2">
+    <div class="tl"><div class="tc-chip"><div class="dot" style="background:#10b981"></div>Deliveries tab</div><span class="ct-up">Updated — auto-triggers stage</span></div>
+    <p class="tc-desc">Nothing changes about how deliveries are created. The new behaviour: confirming a delivery to Yates automatically moves those scope items to Powder Coat. Confirming delivery to site moves them to Delivered.</p>
     <div class="app">
       <div class="app-frame" style="min-height:0">
-        <div class="app-sidebar" style="width:160px">
-          <div class="app-sidebar-logo"><span>Invicta Connect</span></div>
-          <div class="app-nav-item">· Production</div>
-          <div class="app-nav-item active highlight">· Deliveries</div>
-        </div>
+        <div class="app-sb" style="width:155px"><div class="app-sb-logo">Invicta Connect</div><div class="app-ni">· Production</div><div class="app-ni act hi">· Deliveries</div></div>
         <div class="app-main">
-          <div class="app-header"><div class="app-title">Deliveries</div></div>
-          <div class="app-card" style="border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.04)">
-            <div class="si-row">
-              <div>
-                <div class="app-card-title">Delivery to Yates Powder Coating</div>
-                <div class="app-card-sub">East Brisbane SH · Level 2 Kennedy Gates · 26 Jun</div>
-              </div>
-              <span class="app-badge warning">Pending confirm</span>
-            </div>
-            <div style="margin-top:.75rem;background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2);border-radius:6px;padding:.5rem .75rem;font-size:11.5px;color:#b45309">
-              ⚡ Confirming this delivery will automatically set <strong>Level 2 Kennedy Gates</strong> → <strong>Powder Coat</strong> stage
-            </div>
-            <div style="margin-top:.75rem;display:flex;gap:.5rem;justify-content:flex-end">
-              <button class="app-btn app-btn-outline" style="font-size:11px">View Docket</button>
-              <button class="app-btn" style="background:rgba(245,158,11,.15);color:#b45309;border:1px solid rgba(245,158,11,.3);font-size:11px">Confirm Leaving Factory</button>
-            </div>
+          <div class="app-h"><div class="app-title">Deliveries</div></div>
+          <div class="ac" style="border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.03)">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem"><div><div class="ac-name">To Yates Powder Coating</div><div class="ac-sub">East Brisbane SH · L2 Kennedy Gates · 26 Jun</div></div><span class="ab ab-wn">Pending</span></div>
+            <div style="margin-top:.6rem;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:5px;padding:.45rem .65rem;font-size:11.5px;color:#92400e">⚡ Confirming will auto-set <strong>L2 Kennedy Gates</strong> → <strong style="color:var(--app-wn)">Powder Coat</strong> stage</div>
+            <div style="margin-top:.6rem;display:flex;justify-content:flex-end;gap:.4rem"><button class="app-btn btn-out" style="font-size:11px">View Docket</button><button class="app-btn btn-wn" style="font-size:11px">Confirm Leaving Factory</button></div>
           </div>
-          <div class="app-card" style="border-color:rgba(46,133,85,.3);background:rgba(46,133,85,.04);margin-bottom:0">
-            <div class="si-row">
-              <div>
-                <div class="app-card-title">Delivery to Site — Seaworld Multiplex</div>
-                <div class="app-card-sub">SCR04 R28&29 Clip-On Battens · 25 Jun</div>
-              </div>
-              <span class="app-badge success">Delivered</span>
-            </div>
-            <div style="margin-top:.5rem;font-size:11.5px;color:var(--app-muted)">⚡ Automatically moved SCR04 R28&29 → <strong>Delivered</strong> stage on confirm</div>
+          <div class="ac" style="border-color:rgba(46,133,85,.3);background:rgba(46,133,85,.03)">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem"><div><div class="ac-name">To Site — Seaworld Multiplex</div><div class="ac-sub">SCR04 R28&29 Clip-On Battens · 25 Jun</div></div><span class="ab ab-ok">Delivered</span></div>
+            <div style="margin-top:.4rem;font-size:11.5px;color:var(--app-mu)">⚡ Automatically moved SCR04 R28&29 → <strong>Delivered</strong> stage on confirm</div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Tab: Project Detail → QA Checklist -->
-  <div class="tab-change mt2">
-    <div class="tab-label">
-      <div class="tab-chip"><div class="dot" style="background:#3b82f6"></div>Project Detail → Scope Item</div>
-      <span class="change-type new">New — QA sign-off checklist</span>
-    </div>
-    <p style="font-size:.85rem;color:var(--muted);margin-bottom:1rem">Each scope item gets a QA checklist — cut, weld, powder coat, delivery. Digital sign-off (who + timestamp) at each stage. Exportable as internal ISO audit report. Steps adapt to item type (pre-PC items skip weld/powder coat).</p>
-    <div class="app" style="max-width:500px">
+  <!-- QA Checklist -->
+  <div class="tc mt2">
+    <div class="tl"><div class="tc-chip new-tab">✦ Project Detail → QA Checklist tab</div><span class="ct-new">New tab</span></div>
+    <p class="tc-desc">Each scope item gets a QA checklist with digital sign-off at each stage. Click the unchecked items to see them tick off. Exportable as internal ISO audit report. All scope items — steps adapt to item type.</p>
+    <div class="app" style="max-width:520px">
       <div class="app-frame" style="min-height:0">
-        <div class="app-main" style="width:100%">
-          <div class="app-tabs">
-            <div class="app-tab">Overview</div>
-            <div class="app-tab">Scope Items</div>
-            <div class="app-tab active new-tab">QA Checklist</div>
-            <div class="app-tab">Deliveries</div>
+        <div class="app-sb" style="width:155px"><div class="app-sb-logo">Invicta Connect</div><div class="app-ni act">· Projects</div></div>
+        <div class="app-main">
+          <div class="app-tabs"><div class="app-tab">Overview</div><div class="app-tab">Scope Items</div><div class="app-tab act new">QA Checklist</div><div class="app-tab">Deliveries</div></div>
+          <div style="font-size:11.5px;font-weight:600;color:var(--app-mu);margin-bottom:.65rem">L2 Kennedy — BAL01 Gates &amp; Frames</div>
+          <div id="qa-list">
+            <div class="qa-item qa-done" id="qa1"><div class="qa-icon">✅</div><div><div class="qa-name">Cut</div><div class="qa-meta">Al Brannigan · 24 Jun 14:32</div></div><span class="ab ab-ok">Signed off</span></div>
+            <div class="qa-item qa-done" id="qa2"><div class="qa-icon">✅</div><div><div class="qa-name">Weld</div><div class="qa-meta">Al Brannigan · 25 Jun 16:05</div></div><span class="ab ab-ok">Signed off</span></div>
+            <div class="qa-item qa-pend" id="qa3"><div class="qa-icon">⏳</div><div><div class="qa-name">Powder Coat</div><div class="qa-meta" id="qa3-meta">At Yates · due ~3 Jul</div></div><span class="ab ab-wn" id="qa3-badge">Pending</span></div>
+            <div class="qa-item qa-wait qa-clickable" id="qa4" onclick="tickQA(4)"><div class="qa-icon" id="qa4-icon">○</div><div><div class="qa-name">Delivery</div><div class="qa-meta" id="qa4-meta">Click to sign off</div></div><span class="ab ab-mu" id="qa4-badge">Waiting</span></div>
           </div>
-          <div style="font-size:12px;font-weight:600;color:var(--app-muted);margin-bottom:.75rem">Level 2 Kennedy — BAL01 Gates &amp; Frames</div>
-          <div style="display:flex;flex-direction:column;gap:.45rem">
-            <div style="display:flex;align-items:center;gap:.75rem;padding:.55rem .75rem;background:rgba(46,133,85,.06);border:1px solid rgba(46,133,85,.2);border-radius:7px">
-              <div style="font-size:1rem;flex-shrink:0">✅</div>
-              <div style="flex:1"><div style="font-size:12.5px;font-weight:600;color:var(--app-text)">Cut</div><div style="font-size:10.5px;color:var(--app-muted)">Al Brannigan · 24 Jun 14:32</div></div>
-              <span class="app-badge success">Signed off</span>
-            </div>
-            <div style="display:flex;align-items:center;gap:.75rem;padding:.55rem .75rem;background:rgba(46,133,85,.06);border:1px solid rgba(46,133,85,.2);border-radius:7px">
-              <div style="font-size:1rem;flex-shrink:0">✅</div>
-              <div style="flex:1"><div style="font-size:12.5px;font-weight:600;color:var(--app-text)">Weld</div><div style="font-size:10.5px;color:var(--app-muted)">Al Brannigan · 25 Jun 16:05</div></div>
-              <span class="app-badge success">Signed off</span>
-            </div>
-            <div style="display:flex;align-items:center;gap:.75rem;padding:.55rem .75rem;background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2);border-radius:7px">
-              <div style="font-size:1rem;flex-shrink:0">⏳</div>
-              <div style="flex:1"><div style="font-size:12.5px;font-weight:600;color:var(--app-text)">Powder Coat</div><div style="font-size:10.5px;color:var(--app-muted)">At Yates · due ~3 Jul</div></div>
-              <span class="app-badge warning">Pending</span>
-            </div>
-            <div style="display:flex;align-items:center;gap:.75rem;padding:.55rem .75rem;background:hsl(212,26%,97%);border:1px solid var(--app-border);border-radius:7px;opacity:.55">
-              <div style="font-size:1rem;flex-shrink:0">○</div>
-              <div style="flex:1"><div style="font-size:12.5px;font-weight:600;color:var(--app-text)">Delivery</div><div style="font-size:10.5px;color:var(--app-muted)">Waiting</div></div>
-              <span class="app-badge muted">—</span>
-            </div>
-          </div>
-          <div style="margin-top:.875rem">
-            <button class="app-btn app-btn-outline" style="width:100%;justify-content:center;font-size:11.5px">Export QA Report (PDF)</button>
-          </div>
+          <div style="margin-top:.75rem"><button class="app-btn btn-out" style="width:100%;justify-content:center;font-size:11px">Export QA Report (PDF)</button></div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="outcome-band">
-    <div class="ol">Phase 2 Outcome</div>
-    <p>Al's daily 5-minute update means Taylor can see AM05 Screens (Building 4) are 60% fabricated, Level 2 Kennedy Gates are at Yates, and THOR Louvers are ready to deliver — without calling the shed. Monthly claims draw on real data.</p>
-  </div>
+  <div class="ob"><div class="ol">Phase 2 Outcome</div><p>Al's 5-minute daily update means the team can see AM05 Screens (Building 4) are 60% fabricated, L2 Kennedy Gates are at Yates, and THOR Louvers are ready to deliver — without calling the shed. Claims draw on real data.</p></div>
 </div>
 </section>
 
-<!-- ════════════════ PHASE 3 ════════════════ -->
+<!-- PHASE 3 -->
 <section id="phase3" class="p3">
 <div class="wrap">
-  <div class="phase-intro">
-    <div class="phase-num">3</div>
-    <div><div class="phase-title">Install Tracking <span class="phase-weeks">WEEKS 5–6</span></div></div>
-  </div>
-  <p class="phase-desc">Install leads update % completion once a week — triggered automatically inside the existing Friday QuickLog flow. 2 minutes, no separate admin task.</p>
+  <div class="ph"><div class="pn">3</div><div><span class="pt">Install Tracking<span class="pw">WEEKS 5–6</span></span></div></div>
+  <p class="pd">Install leads update % completion at end of Friday — triggered automatically inside the existing Quick Log flow. 2 minutes, no separate admin task.</p>
 
-  <!-- Tab: Quick Log extended -->
-  <div class="tab-change">
-    <div class="tab-label">
-      <div class="tab-chip"><div class="dot" style="background:#8b5cf6"></div>Quick Log tab</div>
-      <span class="change-type extended">Extended — Friday triggers weekly update</span>
-    </div>
-    <p style="font-size:.85rem;color:var(--muted);margin-bottom:1rem">Nothing changes about how the team logs hours. On Fridays only, after saving hours, Connect shows a short install progress prompt for the scope items they worked on that week. If they haven't done it by 4pm, they get an email reminder.</p>
-    <div class="g2">
-      <div>
-        <div style="font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem">Quick Log — any day</div>
-        <div class="app">
-          <div class="app-frame" style="min-height:0">
-            <div class="app-sidebar" style="width:160px">
-              <div class="app-sidebar-logo"><span>Invicta Connect</span></div>
-              <div class="app-nav-section">Time</div>
-              <div class="app-nav-item active highlight">· Quick Log</div>
-              <div class="app-nav-item">· Time Entries</div>
+  <!-- Quick Log extended -->
+  <div class="tc">
+    <div class="tl"><div class="tc-chip"><div class="dot" style="background:#8b5cf6"></div>Quick Log tab</div><span class="ct-ext">Extended — Friday triggers weekly update</span></div>
+    <p class="tc-desc">Nothing changes Mon–Thu. On Fridays, after saving hours, a weekly update prompt appears. It's pre-populated with scope items they worked on that week — just fill in % and any blockers.</p>
+    <div class="ba-row">
+      <div><div class="ba-lbl before">Any day — unchanged</div>
+        <div class="app"><div class="app-frame" style="min-height:0">
+          <div class="app-sb" style="width:155px"><div class="app-sb-logo">Invicta Connect</div><div class="app-ns">Time</div><div class="app-ni act hi">· Quick Log</div><div class="app-ni">· Time Entries</div></div>
+          <div class="app-main">
+            <div class="app-h"><div class="app-title">Quick Log</div><div class="app-sub">Tuesday 24 Jun</div></div>
+            <div class="ac">
+              <div style="display:flex;gap:.4rem;margin-bottom:.5rem"><select class="app-inp" style="flex:2"><option>Seaworld Multiplex</option></select><select class="app-inp" style="flex:2"><option>SCR01-A Batten Screens</option></select><input class="app-inp" style="width:52px;text-align:center" value="8h"/></div>
             </div>
-            <div class="app-main">
-              <div class="app-header"><div class="app-title">Quick Log</div><div class="app-subtitle">Tuesday 24 Jun</div></div>
-              <div class="app-card">
-                <div style="display:flex;gap:.5rem;margin-bottom:.6rem">
-                  <select class="app-input" style="flex:1;padding:.35rem .6rem">
-                    <option>Seaworld Multiplex</option>
-                  </select>
-                  <select class="app-input" style="flex:1;padding:.35rem .6rem">
-                    <option>SCR01-A Batten Screens</option>
-                  </select>
-                  <input class="app-input" style="width:56px;text-align:center" value="8h"/>
-                </div>
-              </div>
-              <button class="app-btn app-btn-primary" style="margin-top:.75rem;width:100%;justify-content:center">Save Hours</button>
-              <div style="font-size:11px;color:var(--app-muted);text-align:center;margin-top:.5rem">No weekly update — that's Fridays only</div>
-            </div>
+            <button class="app-btn btn-pr" style="margin-top:.6rem;width:100%;justify-content:center">Save Hours</button>
+            <div style="font-size:11px;color:var(--app-mu);text-align:center;margin-top:.4rem">No weekly update on weekdays</div>
           </div>
-        </div>
+        </div></div>
       </div>
-      <div>
-        <div style="font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--green);margin-bottom:.5rem">Quick Log — Friday only</div>
-        <div class="app">
-          <div class="app-frame" style="min-height:0">
-            <div class="app-sidebar" style="width:160px">
-              <div class="app-sidebar-logo"><span>Invicta Connect</span></div>
-              <div class="app-nav-section">Time</div>
-              <div class="app-nav-item active highlight">· Quick Log</div>
-              <div class="app-nav-item">· Time Entries</div>
+      <div><div class="ba-lbl after">Friday — weekly update appears</div>
+        <div class="app"><div class="app-frame" style="min-height:0">
+          <div class="app-sb" style="width:155px"><div class="app-sb-logo">Invicta Connect</div><div class="app-ns">Time</div><div class="app-ni act hi">· Quick Log</div><div class="app-ni">· Time Entries</div></div>
+          <div class="app-main">
+            <div class="app-h"><div class="app-title">Quick Log</div><div class="app-sub">Friday 27 Jun</div></div>
+            <div class="ac">
+              <div style="display:flex;gap:.4rem;margin-bottom:.5rem"><select class="app-inp" style="flex:2"><option>Seaworld Multiplex</option></select><select class="app-inp" style="flex:2"><option>SCR01-A Batten Screens</option></select><input class="app-inp" style="width:52px;text-align:center" value="8h"/></div>
             </div>
-            <div class="app-main">
-              <div class="app-header"><div class="app-title">Quick Log</div><div class="app-subtitle">Friday 27 Jun</div></div>
-              <div class="app-card">
-                <div style="display:flex;gap:.5rem;margin-bottom:.6rem">
-                  <select class="app-input" style="flex:1;padding:.35rem .6rem"><option>Seaworld Multiplex</option></select>
-                  <select class="app-input" style="flex:1;padding:.35rem .6rem"><option>SCR01-A Batten Screens</option></select>
-                  <input class="app-input" style="width:56px;text-align:center" value="8h"/>
-                </div>
-              </div>
-              <div style="background:rgba(139,92,246,.06);border:1px solid rgba(139,92,246,.25);border-radius:8px;padding:.875rem;margin-top:.75rem">
-                <div style="font-size:11.5px;font-weight:700;color:#7c3aed;margin-bottom:.6rem">📋 End of Week — Install Update</div>
-                <div style="font-size:11px;color:var(--app-muted);margin-bottom:.4rem">Seaworld — SCR01-A Batten Screens</div>
-                <div class="app-slider-row">
-                  <div style="font-size:11px;color:var(--app-text);flex:1">Installed this week</div>
-                  <div class="app-slider-track" style="flex:2"><div class="app-slider-fill" style="width:45%;background:#7c3aed"></div></div>
-                  <div class="app-slider-val" style="color:#7c3aed">45%</div>
-                </div>
-                <div style="font-size:11px;color:var(--app-muted);margin:.5rem 0 .3rem">Any blockers?</div>
-                <input class="app-input" style="padding:.35rem .6rem" placeholder="Level 3 access blocked Thursday"/>
-              </div>
-              <button class="app-btn app-btn-primary" style="margin-top:.75rem;width:100%;justify-content:center">Save Hours + Submit Week</button>
+            <div style="background:rgba(124,58,237,.07);border:1px solid rgba(124,58,237,.25);border-radius:8px;padding:.75rem;margin-top:.6rem">
+              <div style="font-size:11px;font-weight:700;color:#7c3aed;margin-bottom:.5rem">📋 End of Week — Install Update</div>
+              <div style="font-size:10.5px;color:var(--app-mu);margin-bottom:.3rem">Seaworld — SCR01-A Batten Screens</div>
+              <div class="num-input" style="gap:.4rem"><label style="font-size:11px;flex:1">Installed %</label><input type="number" min="0" max="100" value="45" id="ins1" style="border-color:rgba(124,58,237,.3)"/><span class="pct-sign">%</span></div>
+              <div style="font-size:10.5px;color:var(--app-mu);margin:.5rem 0 .25rem">Any blockers this week?</div>
+              <input class="app-inp" value="Level 3 access blocked Thursday" style="font-size:11px"/>
             </div>
+            <button class="app-btn btn-pr" style="margin-top:.6rem;width:100%;justify-content:center">Save Hours + Submit Week</button>
           </div>
-        </div>
+        </div></div>
       </div>
     </div>
   </div>
 
-  <!-- Project Detail scope items after Phase 3 -->
-  <div class="tab-change mt2">
-    <div class="tab-label">
-      <div class="tab-chip"><div class="dot" style="background:#3b82f6"></div>Project Detail → Scope Items</div>
-      <span class="change-type updated">Install % now live</span>
+  <!-- Email reminder -->
+  <div class="tc mt2">
+    <div class="tl"><div class="tc-chip new-tab">✦ Friday Reminder Email</div><span class="ct-new">Automated</span></div>
+    <p class="tc-desc">If an install lead hasn't submitted their weekly update by Friday 4pm, they get an automatic email. Role-based — only install leads get this, not the full team.</p>
+    <div style="background:var(--s1);border:1px solid var(--bdr);border-radius:10px;padding:1.1rem;max-width:500px">
+      <div style="font-size:11px;color:var(--mu);margin-bottom:.75rem;display:flex;flex-direction:column;gap:.3rem">
+        <div><span style="color:var(--dim)">To:</span> will@invictaindustries.com.au</div>
+        <div><span style="color:var(--dim)">From:</span> connect@invictaindustries.com.au</div>
+        <div><span style="color:var(--dim)">Subject:</span> <strong style="color:var(--tx)">Friday reminder — Seaworld weekly update</strong></div>
+      </div>
+      <div style="border-top:1px solid var(--bdr);padding-top:.75rem;font-size:12.5px;color:var(--tx);line-height:1.75">
+        Hey Will,<br><br>
+        It's Friday 4pm and your weekly install update for <strong>Seaworld Multiplex</strong> hasn't been submitted yet.<br><br>
+        Takes about 2 minutes — just open Quick Log in Connect, log your hours, and the update prompt will appear automatically.<br><br>
+        Cheers,<br>Invicta Connect
+      </div>
     </div>
-    <p style="font-size:.85rem;color:var(--muted);margin-bottom:1rem">The same scope item table from Phase 1 now shows real fabrication % from Al and real install % from the install lead — not zeroes.</p>
+  </div>
+
+  <!-- Scope items after Phase 3 -->
+  <div class="tc mt2">
+    <div class="tl"><div class="tc-chip"><div class="dot" style="background:#3b82f6"></div>Project Detail → Scope Items</div><span class="ct-up">Install % now live</span></div>
+    <p class="tc-desc">The same scope items table now shows real fab % from Al and real install % from the install lead — not zeroes.</p>
     <div class="app">
       <div class="app-frame" style="min-height:0">
-        <div class="app-sidebar" style="width:160px">
-          <div class="app-sidebar-logo"><span>Invicta Connect</span></div>
-          <div class="app-nav-item active">· Projects</div>
-        </div>
+        <div class="app-sb" style="width:155px"><div class="app-sb-logo">Invicta Connect</div><div class="app-ni act">· Projects</div></div>
         <div class="app-main">
-          <div class="app-header"><div class="app-title">Seaworld Multiplex</div></div>
-          <div class="app-tabs">
-            <div class="app-tab active">Scope Items</div>
-            <div class="app-tab">Run Chase</div>
-            <div class="app-tab">QA Checklist</div>
-          </div>
-          <table class="app-table">
-            <thead><tr><th>Item</th><th>Stage</th><th>Fab</th><th>Install</th></tr></thead>
-            <tbody>
-              <tr>
-                <td><div class="cell-name">SCR01-A Batten Screens</div><div class="cell-sub">All levels</div></td>
-                <td><span class="stage-badge sb-ins"><span class="sb-dot"></span>Installing</span></td>
-                <td><div class="bar-wrap"><div class="bar-track"><div class="bar-fill pf-success" style="width:100%"></div></div><span class="bar-label">100%</span></div></td>
-                <td><div class="bar-wrap"><div class="bar-track"><div class="bar-fill" style="width:45%;background:#7c3aed"></div></div><span class="bar-label">45%</span></div></td>
-              </tr>
-              <tr>
-                <td><div class="cell-name">SCR04 R28&29 Battens</div><div class="cell-sub">Rooftop</div></td>
-                <td><span class="stage-badge sb-done"><span class="sb-dot"></span>Installed</span></td>
-                <td><span class="app-badge success">100%</span></td>
-                <td><span class="app-badge success">100%</span></td>
-              </tr>
-              <tr>
-                <td><div class="cell-name">Rooftop Gates</div></td>
-                <td><span class="stage-badge sb-rfd"><span class="sb-dot"></span>Ready for Delivery</span></td>
-                <td><span class="app-badge success">100%</span></td>
-                <td><span class="app-badge muted">—</span></td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="app-h"><div class="app-title">Seaworld Multiplex</div></div>
+          <div class="app-tabs"><div class="app-tab act">Scope Items</div><div class="app-tab">Run Chase</div><div class="app-tab new">QA Checklist</div></div>
+          <table class="at"><thead><tr><th>Item</th><th>Stage</th><th>Fab</th><th>Install</th></tr></thead><tbody>
+            <tr><td><div class="cell-n">SCR01-A Batten Screens</div><div class="cell-s">All levels</div></td><td><span class="sb sb-ins"><span class="sb-d"></span>Installing</span></td><td><div class="bw"><div class="bt"><div class="bf pf-ok" style="width:100%"></div></div><span class="bl">100%</span></div></td><td><div class="bw"><div class="bt"><div class="bf pf-pu" style="width:45%"></div></div><span class="bl">45%</span></div></td></tr>
+            <tr><td><div class="cell-n">SCR04 R28&29 Battens</div><div class="cell-s">Rooftop</div></td><td><span class="sb sb-done"><span class="sb-d"></span>Installed</span></td><td><span class="ab ab-ok">100%</span></td><td><span class="ab ab-ok">100%</span></td></tr>
+            <tr><td><div class="cell-n">Rooftop Gates</div></td><td><span class="sb sb-rfd"><span class="sb-d"></span>Ready for Delivery</span></td><td><span class="ab ab-ok">100%</span></td><td><span class="ab ab-mu">—</span></td></tr>
+            <tr><td><div class="cell-n">SCR04 R37&38 Battens</div></td><td><span class="sb sb-del"><span class="sb-d"></span>Delivered</span></td><td><span class="ab ab-ok">100%</span></td><td><span class="ab ab-mu">Not started</span></td></tr>
+          </tbody></table>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="outcome-band">
-    <div class="ol">Phase 3 Outcome</div>
-    <p>The Seaworld problem is solved. Will doesn't need to be called. SCR01-A is 45% installed, R28&29 is complete, Level 3 was blocked Thursday. That's the whole picture in Connect — without a phone call.</p>
-  </div>
+  <div class="ob"><div class="ol">Phase 3 Outcome</div><p>The Seaworld problem is solved. Will doesn't need to be called. SCR01-A is 45% installed, R28&29 is complete, Level 3 was blocked Thursday. That's the full picture in Connect, without a phone call.</p></div>
 </div>
 </section>
 
-<!-- ════════════════ PHASE 4 ════════════════ -->
+<!-- PHASE 4 -->
 <section id="phase4" class="p4">
 <div class="wrap">
-  <div class="phase-intro">
-    <div class="phase-num">4</div>
-    <div><div class="phase-title">Claims &amp; Leadership Dashboard <span class="phase-weeks">WEEKS 7–10</span></div></div>
-  </div>
-  <p class="phase-desc">PMs own the monthly recap. Taylor reviews and approves. The Monday morning dashboard goes live — "are we making money?" answered from a screen.</p>
+  <div class="ph"><div class="pn">4</div><div><span class="pt">Claims &amp; Leadership Dashboard<span class="pw">WEEKS 7–10</span></span></div></div>
+  <p class="pd">PMs own the monthly recap. Taylor reviews and approves. The Monday morning dashboard goes live.</p>
 
-  <!-- Tab: Financials → Monthly Recap -->
-  <div class="tab-change">
-    <div class="tab-label">
-      <div class="tab-chip"><div class="dot" style="background:#f59e0b"></div>Financials → Monthly Recap</div>
-      <span class="change-type extended">Extended — auto-populated + approval flow</span>
-    </div>
-    <p style="font-size:.85rem;color:var(--muted);margin-bottom:1rem">The monthly recap already exists. Phase 4 adds: % complete columns auto-populated from Phase 2+3 data, PM submits for approval, Taylor reviews and approves before claim goes out. The meeting still happens — but the numbers are already in when they sit down.</p>
-    <div class="g2">
-      <div>
-        <div style="font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--red);margin-bottom:.5rem">Before — Taylor types everything</div>
-        <div class="app">
-          <div class="app-frame" style="min-height:0">
-            <div class="app-sidebar" style="width:160px">
-              <div class="app-sidebar-logo"><span>Invicta Connect</span></div>
-              <div class="app-nav-item">· Projects</div>
-              <div class="app-nav-item active highlight">· Financials</div>
-            </div>
-            <div class="app-main">
-              <div class="app-tabs">
-                <div class="app-tab active">Monthly Recap</div>
-                <div class="app-tab">Invoices</div>
-              </div>
-              <table class="app-table">
-                <thead><tr><th>Project</th><th>Last %</th><th>This %</th><th>To Claim</th></tr></thead>
-                <tbody>
-                  <tr><td><div class="cell-name">East Brisbane SH</div></td><td>0%</td><td><input class="app-input" style="width:56px;padding:.2rem .4rem;font-size:11px" placeholder="?%"/></td><td style="color:var(--app-muted)">—</td></tr>
-                  <tr><td><div class="cell-name">Seaworld</div></td><td>0%</td><td><input class="app-input" style="width:56px;padding:.2rem .4rem;font-size:11px" placeholder="?%"/></td><td style="color:var(--app-muted)">—</td></tr>
-                  <tr><td><div class="cell-name">Logan SS</div></td><td>65%</td><td><input class="app-input" style="width:56px;padding:.2rem .4rem;font-size:11px" placeholder="?%"/></td><td style="color:var(--app-muted)">—</td></tr>
-                </tbody>
-              </table>
-              <div style="font-size:11px;color:var(--app-danger);margin-top:.75rem">Taylor manually calls PMs, types %s from memory, builds spreadsheet</div>
+  <!-- Monthly Recap approval flow -->
+  <div class="tc">
+    <div class="tl"><div class="tc-chip"><div class="dot" style="background:#f59e0b"></div>Financials → Monthly Recap</div><span class="ct-ext">Extended — auto-populated + approval flow</span></div>
+    <p class="tc-desc">The recap already exists. Phase 4 adds: % complete auto-populated from Phase 2+3 data, PM submits for approval, Taylor reviews and approves. Try the flow — it's interactive.</p>
+    <div class="app">
+      <div class="app-frame" style="min-height:0;flex-direction:column">
+        <div class="app-sb" style="width:155px;display:none"></div>
+        <div class="app-main" style="width:100%">
+          <div class="af-tabs">
+            <div class="af-tab act" id="aft-pm" onclick="afSwitch('pm')">PM View (Braden/Desi)</div>
+            <div class="af-tab" id="aft-tay" onclick="afSwitch('tay')">Taylor View</div>
+          </div>
+          <!-- PM View -->
+          <div class="af-view show" id="afv-pm">
+            <div id="af-pm-submitted" style="display:none" class="af-notice">✓ Submitted for Taylor's review — waiting on approval</div>
+            <table class="at" id="af-table">
+              <thead><tr><th>Project</th><th>Last %</th><th>This % (auto)</th><th>To Claim</th></tr></thead>
+              <tbody>
+                <tr><td><div class="cell-n">East Brisbane SH</div></td><td>0%</td><td><span class="ab ab-pu">42% ↑ auto</span></td><td style="color:var(--app-ok);font-weight:700">$31,400</td></tr>
+                <tr><td><div class="cell-n">Seaworld Multiplex</div></td><td>40%</td><td><span class="ab ab-pu">61% ↑ auto</span></td><td style="color:var(--app-ok);font-weight:700">$22,300</td></tr>
+                <tr><td><div class="cell-n">Logan State School</div></td><td>65%</td><td><span class="ab ab-pu">78% ↑ auto</span></td><td style="color:var(--app-ok);font-weight:700">$41,100</td></tr>
+                <tr><td><div class="cell-n">41 George Street</div></td><td>92%</td><td><span class="ab ab-pu">95% ↑ auto</span></td><td style="color:var(--app-ok);font-weight:700">$9,800</td></tr>
+              </tbody>
+            </table>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:.875rem;padding-top:.75rem;border-top:1px solid var(--app-bdr)">
+              <div style="font-size:12px;font-weight:700;color:var(--app-tx)">Total claimable: <span style="color:var(--app-ok)">$104,600</span></div>
+              <button class="app-btn btn-ok" id="pm-submit-btn" onclick="pmSubmit()">Submit for Taylor's Approval →</button>
             </div>
           </div>
-        </div>
-      </div>
-      <div>
-        <div style="font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--green);margin-bottom:.5rem">After Phase 4 — PM submits, Taylor approves</div>
-        <div class="app">
-          <div class="app-frame" style="min-height:0">
-            <div class="app-sidebar" style="width:160px">
-              <div class="app-sidebar-logo"><span>Invicta Connect</span></div>
-              <div class="app-nav-item">· Projects</div>
-              <div class="app-nav-item active highlight">· Financials</div>
-            </div>
-            <div class="app-main">
-              <div class="app-tabs">
-                <div class="app-tab active">Monthly Recap</div>
-                <div class="app-tab">Invoices</div>
-              </div>
-              <table class="app-table">
-                <thead><tr><th>Project</th><th>Last %</th><th>This %</th><th>To Claim</th><th></th></tr></thead>
-                <tbody>
-                  <tr>
-                    <td><div class="cell-name">East Brisbane SH</div></td>
-                    <td>0%</td>
-                    <td><span class="app-badge primary" style="font-size:10px">42% ↑ auto</span></td>
-                    <td style="color:var(--app-success);font-weight:600">$31k</td>
-                    <td><span class="app-badge success">✓</span></td>
-                  </tr>
-                  <tr>
-                    <td><div class="cell-name">Seaworld</div></td>
-                    <td>40%</td>
-                    <td><span class="app-badge primary" style="font-size:10px">61% ↑ auto</span></td>
-                    <td style="color:var(--app-success);font-weight:600">$22k</td>
-                    <td><span class="app-badge success">✓</span></td>
-                  </tr>
-                  <tr>
-                    <td><div class="cell-name">Logan SS</div></td>
-                    <td>65%</td>
-                    <td><span class="app-badge primary" style="font-size:10px">78% ↑ auto</span></td>
-                    <td style="color:var(--app-success);font-weight:600">$41k</td>
-                    <td><span class="app-badge success">✓</span></td>
-                  </tr>
-                </tbody>
-              </table>
-              <div style="display:flex;align-items:center;justify-content:space-between;margin-top:.875rem;padding-top:.75rem;border-top:1px solid var(--app-border)">
-                <div style="font-size:12px;font-weight:700;color:var(--app-text)">Total: <span style="color:var(--app-success)">$94,200</span></div>
-                <button class="app-btn app-btn-success" style="font-size:11px">Submit for Taylor's Approval →</button>
+          <!-- Taylor View -->
+          <div class="af-view" id="afv-tay">
+            <div class="af-notice" id="tay-notice">📋 Braden submitted the June recap for your review</div>
+            <table class="at">
+              <thead><tr><th>Project</th><th>PM's %</th><th>To Claim</th><th></th></tr></thead>
+              <tbody>
+                <tr><td><div class="cell-n">East Brisbane SH</div></td><td><span class="ab ab-pu">42%</span></td><td style="font-weight:700">$31,400</td><td><span class="ab ab-ok" id="tap1">✓</span></td></tr>
+                <tr><td><div class="cell-n">Seaworld Multiplex</div></td><td><span class="ab ab-pu">61%</span></td><td style="font-weight:700">$22,300</td><td><span class="ab ab-ok" id="tap2">✓</span></td></tr>
+                <tr><td><div class="cell-n">Logan State School</div></td><td><span class="ab ab-pu">78%</span></td><td style="font-weight:700">$41,100</td><td><span class="ab ab-ok" id="tap3">✓</span></td></tr>
+                <tr><td><div class="cell-n">41 George Street</div></td><td><span class="ab ab-pu">95%</span></td><td style="font-weight:700">$9,800</td><td><span class="ab ab-ok" id="tap4">✓</span></td></tr>
+              </tbody>
+            </table>
+            <div style="margin-top:.875rem;padding-top:.75rem;border-top:1px solid var(--app-bdr)">
+              <div class="af-success" id="tay-approved">✓ Approved — $104,600 ready to send to builders</div>
+              <div id="tay-approve-row" style="display:flex;align-items:center;justify-content:space-between">
+                <div style="font-size:12px;font-weight:700;color:var(--app-tx)">Total: <span style="color:var(--app-ok)">$104,600</span></div>
+                <button class="app-btn btn-ok" onclick="tayApprove()">Approve &amp; Send →</button>
               </div>
             </div>
           </div>
@@ -943,93 +794,42 @@ footer p{font-size:.8rem;color:var(--dim)}
     </div>
   </div>
 
-  <!-- Tab: Dashboard updated -->
-  <div class="tab-change mt2">
-    <div class="tab-label">
-      <div class="tab-chip new"><div class="dot" style="background:var(--green)"></div>Dashboard tab</div>
-      <span class="change-type new">Enhanced — Monday morning leadership view</span>
-    </div>
-    <p style="font-size:.85rem;color:var(--muted);margin-bottom:1rem">The existing Dashboard gets a leadership overview — all projects with RAG status, margin vs target, fab and install progress, revenue claimed vs burn. Taylor's Monday morning question answered at a glance.</p>
+  <!-- Dashboard -->
+  <div class="tc mt2">
+    <div class="tl"><div class="tc-chip new-tab">✦ Dashboard tab</div><span class="ct-new">Enhanced — Monday morning view</span></div>
+    <p class="tc-desc">The existing Dashboard gets a full leadership overview — all projects with live RAG status, real margins, fab and install progress. Taylor's Monday question answered at a glance.</p>
     <div class="app">
       <div class="app-frame">
-        <div class="app-sidebar">
-          <div class="app-sidebar-logo"><span>Invicta Connect</span></div>
-          <div class="app-nav-section">Overview</div>
-          <div class="app-nav-item active highlight">· Dashboard</div>
-          <div class="app-nav-section">Projects</div>
-          <div class="app-nav-item">· Projects</div>
-          <div class="app-nav-item">· Command Centre</div>
-          <div class="app-nav-section">Production</div>
-          <div class="app-nav-item">· Production</div>
-          <div class="app-nav-item">· Deliveries</div>
-          <div class="app-nav-section">Time &amp; People</div>
-          <div class="app-nav-item">· Quick Log</div>
-          <div class="app-nav-item">· Financials</div>
+        <div class="app-sb">
+          <div class="app-sb-logo">Invicta Connect</div>
+          <div class="app-ns">Overview</div>
+          <div class="app-ni act hi">· Dashboard</div>
+          <div class="app-ns">Projects</div>
+          <div class="app-ni">· Projects</div>
+          <div class="app-ni">· Command Centre</div>
+          <div class="app-ns">Production</div>
+          <div class="app-ni">· Production</div>
+          <div class="app-ni">· Deliveries</div>
+          <div class="app-ns">Time &amp; People</div>
+          <div class="app-ni">· Quick Log</div>
+          <div class="app-ni">· Financials</div>
         </div>
         <div class="app-main">
-          <div class="app-header">
-            <div><div class="app-title">Dashboard</div><div class="app-subtitle">Week of 23 June 2026</div></div>
-          </div>
-
+          <div class="app-h"><div><div class="app-title">Dashboard</div><div class="app-sub">Week of 23 June 2026 · 8 active projects</div></div></div>
           <div class="app-kpis">
-            <div class="app-kpi">
-              <div class="kpi-icon" style="background:rgba(46,133,85,.12);color:var(--app-success)">$</div>
-              <div class="kpi-val" style="color:var(--app-success)">$487k</div>
-              <div class="kpi-label">Claimed MTD</div>
-            </div>
-            <div class="app-kpi">
-              <div class="kpi-icon" style="background:rgba(59,74,98,.1);color:var(--app-primary)">🏦</div>
-              <div class="kpi-val">$913k</div>
-              <div class="kpi-label">Cash Position</div>
-            </div>
-            <div class="app-kpi">
-              <div class="kpi-icon" style="background:rgba(46,133,85,.12);color:var(--app-success)">%</div>
-              <div class="kpi-val" style="color:var(--app-success)">28.1%</div>
-              <div class="kpi-label">Avg Margin</div>
-            </div>
-            <div class="app-kpi">
-              <div class="kpi-icon" style="background:rgba(245,158,11,.12);color:var(--app-warning)">⚠</div>
-              <div class="kpi-val">1</div>
-              <div class="kpi-label">At Risk</div>
-            </div>
+            <div class="app-kpi"><div class="kpi-val" style="color:var(--app-ok)">$487k</div><div class="kpi-lbl">Claimed MTD</div></div>
+            <div class="app-kpi"><div class="kpi-val">$913k</div><div class="kpi-lbl">Cash Position</div></div>
+            <div class="app-kpi"><div class="kpi-val" style="color:var(--app-ok)">28.1%</div><div class="kpi-lbl">Avg Margin</div></div>
+            <div class="app-kpi"><div class="kpi-val" style="color:var(--app-wn)">1</div><div class="kpi-lbl">At Risk</div></div>
           </div>
-
-          <div style="font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--app-muted);margin-bottom:.5rem">Project Health</div>
-          <table class="app-table">
+          <div style="font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--app-mu);margin-bottom:.4rem">Project Health</div>
+          <table class="at">
             <thead><tr><th>Project</th><th>Progress</th><th>Fab</th><th>Install</th><th>Margin</th><th>Status</th></tr></thead>
             <tbody>
-              <tr>
-                <td><div class="cell-name">Logan SS</div></td>
-                <td><div class="bar-wrap"><div class="bar-track" style="min-width:60px"><div class="bar-fill pf-success" style="width:78%"></div></div><span class="bar-label">78%</span></div></td>
-                <td><span class="app-badge primary" style="font-size:10px">12 active</span></td>
-                <td><span class="app-badge" style="background:rgba(124,58,237,.1);color:#7c3aed;font-size:10px">4 sites</span></td>
-                <td><span class="app-badge success">28.2%</span></td>
-                <td><div class="rag rag-green"><div class="rag-dot"></div>On Track</div></td>
-              </tr>
-              <tr>
-                <td><div class="cell-name">East Brisbane SH</div></td>
-                <td><div class="bar-wrap"><div class="bar-track" style="min-width:60px"><div class="bar-fill pf-warning" style="width:42%"></div></div><span class="bar-label">42%</span></div></td>
-                <td><span class="app-badge warning" style="font-size:10px">89% budget</span></td>
-                <td><span class="app-badge muted" style="font-size:10px">Not started</span></td>
-                <td><span class="app-badge warning">24.1%</span></td>
-                <td><div class="rag rag-amber"><div class="rag-dot"></div>At Risk</div></td>
-              </tr>
-              <tr>
-                <td><div class="cell-name">Seaworld Multiplex</div></td>
-                <td><div class="bar-wrap"><div class="bar-track" style="min-width:60px"><div class="bar-fill pf-success" style="width:61%"></div></div><span class="bar-label">61%</span></div></td>
-                <td><span class="app-badge success" style="font-size:10px">3 ready</span></td>
-                <td><span class="app-badge" style="background:rgba(124,58,237,.1);color:#7c3aed;font-size:10px">2 installing</span></td>
-                <td><span class="app-badge success">26.1%</span></td>
-                <td><div class="rag rag-green"><div class="rag-dot"></div>On Track</div></td>
-              </tr>
-              <tr>
-                <td><div class="cell-name">41 George Street</div></td>
-                <td><div class="bar-wrap"><div class="bar-track" style="min-width:60px"><div class="bar-fill pf-success" style="width:95%"></div></div><span class="bar-label">95%</span></div></td>
-                <td><span class="app-badge muted" style="font-size:10px">DLP</span></td>
-                <td><span class="app-badge muted" style="font-size:10px">DLP</span></td>
-                <td><span class="app-badge success">31.1%</span></td>
-                <td><div class="rag rag-green"><div class="rag-dot"></div>On Track</div></td>
-              </tr>
+              <tr><td><div class="cell-n">Logan State School</div></td><td><div class="bw"><div class="bt" style="min-width:55px"><div class="bf pf-ok" style="width:78%"></div></div><span class="bl">78%</span></div></td><td><span class="ab ab-pu" style="font-size:9.5px">12 active</span></td><td><span class="ab ab-pu" style="font-size:9.5px">4 on site</span></td><td><span class="ab ab-ok">28.2%</span></td><td><div class="rag rag-ok"><div class="rag-dot"></div>On Track</div></td></tr>
+              <tr><td><div class="cell-n">East Brisbane SH</div></td><td><div class="bw"><div class="bt" style="min-width:55px"><div class="bf pf-wn" style="width:42%"></div></div><span class="bl">42%</span></div></td><td><span class="ab ab-wn" style="font-size:9.5px">89% budget</span></td><td><span class="ab ab-mu" style="font-size:9.5px">Not started</span></td><td><span class="ab ab-wn">24.1%</span></td><td><div class="rag rag-wn"><div class="rag-dot"></div>At Risk</div></td></tr>
+              <tr><td><div class="cell-n">Seaworld Multiplex</div></td><td><div class="bw"><div class="bt" style="min-width:55px"><div class="bf pf-ok" style="width:61%"></div></div><span class="bl">61%</span></div></td><td><span class="ab ab-ok" style="font-size:9.5px">3 ready</span></td><td><span class="ab ab-pu" style="font-size:9.5px">2 installing</span></td><td><span class="ab ab-ok">26.1%</span></td><td><div class="rag rag-ok"><div class="rag-dot"></div>On Track</div></td></tr>
+              <tr><td><div class="cell-n">41 George Street</div></td><td><div class="bw"><div class="bt" style="min-width:55px"><div class="bf pf-ok" style="width:95%"></div></div><span class="bl">95%</span></div></td><td><span class="ab ab-tl" style="font-size:9.5px">DLP</span></td><td><span class="ab ab-tl" style="font-size:9.5px">DLP</span></td><td><span class="ab ab-ok">31.1%</span></td><td><div class="rag rag-ok"><div class="rag-dot"></div>On Track</div></td></tr>
             </tbody>
           </table>
         </div>
@@ -1037,141 +837,290 @@ footer p{font-size:.8rem;color:var(--dim)}
     </div>
   </div>
 
-  <div class="outcome-band">
-    <div class="ol">Phase 4 Outcome</div>
-    <p>Monday morning: Taylor opens Dashboard. All projects visible with RAG, real margins, live fab and install progress. Monthly recap is already populated — PM submits, Taylor approves, claim goes out. 5 minutes instead of 45.</p>
-  </div>
+  <div class="ob"><div class="ol">Phase 4 Outcome</div><p>Monday morning: open Dashboard. All projects, all margins, all status at a glance. Monthly recap is pre-populated — PM submits, Taylor approves, done. "Are we making money?" is a screen, not a question.</p></div>
 </div>
 </section>
 
-<!-- ════════════════ TEAM ════════════════ -->
-<section id="team">
+<!-- DAY IN THE LIFE -->
+<section id="daylife">
 <div class="wrap">
-  <div class="tag">Team Impact</div>
-  <h2>Three new habits. That's it.</h2>
-  <p>Everything is built around what people already do in Connect. No new apps. No new login. Inputs are minimal and tied into existing workflows.</p>
-  <div class="team-grid">
-    <div class="team-card">
-      <div class="team-role">Factory Manager</div>
-      <div class="team-name">Al</div>
-      <div class="change-row"><span class="plus">+</span>5–10 min end-of-day in Production tab</div>
-      <div class="change-row"><span class="plus">+</span>% complete per fabricating scope item</div>
-      <div class="change-row"><span class="plus">+</span>Tap "Ready for Delivery" when items back from Yates</div>
-      <div class="divider"></div>
-      <div class="change-row"><span class="neutral">·</span>PO checking — unchanged</div>
-      <div class="change-row"><span class="neutral">·</span>Delivery photos — unchanged</div>
+  <div class="tag">Day in the Life</div>
+  <h2>What actually changes for each person</h2>
+  <p>Select a role to see what their day looks like before and after the system is live.</p>
+  <div class="dil-tabs mt15">
+    <div class="dil-tab act" onclick="dilSwitch('al')">Al (Factory Manager)</div>
+    <div class="dil-tab" onclick="dilSwitch('ins')">Install Lead</div>
+    <div class="dil-tab" onclick="dilSwitch('pm')">Braden / Desi (PM)</div>
+    <div class="dil-tab" onclick="dilSwitch('tay')">Taylor (CEO)</div>
+  </div>
+  <!-- Al -->
+  <div class="dil-view show" id="dil-al">
+    <div class="dil-ba">
+      <div class="dil-col before"><div class="dil-col-hd">Before</div><div class="dil-col-body">
+        <div class="dil-event"><div class="dil-time">7:30am</div><div class="dil-text">Arrives at factory. Drawing packs sitting on desk from yesterday.<div class="sub">Picks up the top one and starts.</div></div></div>
+        <div class="dil-event"><div class="dil-time">All day</div><div class="dil-text">Fabricates. No digital tracking of progress.<div class="sub">Hours get logged at the end via QuickLog.</div></div></div>
+        <div class="dil-event"><div class="dil-time">Mid-day</div><div class="dil-text">PM calls: "Hey Al where are you at on the East Brisbane gates?"<div class="sub">Al answers from memory.</div></div></div>
+        <div class="dil-event"><div class="dil-time">4:30pm</div><div class="dil-text">Logs hours in Connect QuickLog. Goes home.<div class="sub">No record of what % is complete.</div></div></div>
+        <div class="dil-event"><div class="dil-time">Friday</div><div class="dil-text">PM asks in Monday meeting: "What's ready?"<div class="sub">Al answers from memory.</div></div></div>
+      </div></div>
+      <div class="dil-col after"><div class="dil-col-hd">After Phase 2</div><div class="dil-col-body">
+        <div class="dil-event"><div class="dil-time">7:30am</div><div class="dil-text">Arrives. Opens Production tab on workshop iPad.<div class="sub">Sees today's active scope items listed.</div></div></div>
+        <div class="dil-event"><div class="dil-time">All day</div><div class="dil-text">Fabricates. Same as before — no interruption to workflow.</div></div>
+        <div class="dil-event"><div class="dil-time">Mid-day</div><div class="dil-text">PM doesn't need to call — they can see status in Connect.</div></div>
+        <div class="dil-event"><div class="dil-time">4:30pm</div><div class="dil-text"><strong>New: 5 mins on iPad.</strong> Opens Factory View, types % per item, taps Save.<div class="sub">Then logs hours as usual. Done.</div></div></div>
+        <div class="dil-event"><div class="dil-time">When done</div><div class="dil-text">Marks item Ready for Delivery. PM gets notified.<div class="sub">No call needed.</div></div></div>
+      </div></div>
     </div>
-    <div class="team-card">
-      <div class="team-role">Install Leads</div>
-      <div class="team-name">Tim, Will + crew</div>
-      <div class="change-row"><span class="plus">+</span>2 min at end of every Friday</div>
-      <div class="change-row"><span class="plus">+</span>% complete per installing scope item</div>
-      <div class="change-row"><span class="plus">+</span>Triggered inside existing QuickLog flow</div>
-      <div class="divider"></div>
-      <div class="change-row"><span class="neutral">·</span>QuickLog for hours — unchanged</div>
+  </div>
+  <!-- Install Lead -->
+  <div class="dil-view" id="dil-ins">
+    <div class="dil-ba">
+      <div class="dil-col before"><div class="dil-col-hd">Before</div><div class="dil-col-body">
+        <div class="dil-event"><div class="dil-time">Mon AM</div><div class="dil-text">PM WhatsApps the week's plan.<div class="sub">Maybe a phone call to confirm details.</div></div></div>
+        <div class="dil-event"><div class="dil-time">All week</div><div class="dil-text">Installs, logs hours daily in QuickLog.<div class="sub">Progress is in their head only.</div></div></div>
+        <div class="dil-event"><div class="dil-time">Delays</div><div class="dil-text">Site blocked or delivery late — WhatsApp PM. PM rearranges.<div class="sub">No record kept.</div></div></div>
+        <div class="dil-event"><div class="dil-time">Friday</div><div class="dil-text">PM calls: "Where are you at on Seaworld?"<div class="sub">Install lead gives verbal update from memory.</div></div></div>
+        <div class="dil-event"><div class="dil-time">End job</div><div class="dil-text">PM calls Taylor: "I think Seaworld install is about 45%."<div class="sub">That number goes into the claim as an estimate.</div></div></div>
+      </div></div>
+      <div class="dil-col after"><div class="dil-col-hd">After Phase 3</div><div class="dil-col-body">
+        <div class="dil-event"><div class="dil-time">Mon AM</div><div class="dil-text">Asana for drawings and scope — same as before.</div></div>
+        <div class="dil-event"><div class="dil-time">All week</div><div class="dil-text">Installs, logs hours daily in QuickLog — same as before.</div></div>
+        <div class="dil-event"><div class="dil-time">Delays</div><div class="dil-text">Still WhatsApp PM when blocked. Logged as a note in Friday update too.</div></div>
+        <div class="dil-event"><div class="dil-time">Friday</div><div class="dil-text"><strong>New: 2 mins.</strong> Logs hours → weekly update prompt appears automatically.<div class="sub">Types % per scope item and any blockers. Submit. Done.</div></div></div>
+        <div class="dil-event"><div class="dil-time">End job</div><div class="dil-text">Real install % is already in Connect from weekly updates.<div class="sub">Claim uses actual data. No estimates.</div></div></div>
+      </div></div>
     </div>
-    <div class="team-card">
-      <div class="team-role">Project Managers</div>
-      <div class="team-name">Braden &amp; Desi</div>
-      <div class="change-row"><span class="plus">+</span>Phase 1: project setup with scope template</div>
-      <div class="change-row"><span class="plus">+</span>Phase 4: submit monthly recap for approval</div>
-      <div class="divider"></div>
-      <div class="change-row"><span class="neutral">·</span>Already attending monthly recap meetings</div>
-      <div class="change-row"><span class="neutral">·</span>Already managing scope items and budgets</div>
+  </div>
+  <!-- PM -->
+  <div class="dil-view" id="dil-pm">
+    <div class="dil-ba">
+      <div class="dil-col before"><div class="dil-col-hd">Before</div><div class="dil-col-body">
+        <div class="dil-event"><div class="dil-time">Mon AM</div><div class="dil-text">Monday meeting. Call Al. Call install lead. Get verbal status on each project.</div></div>
+        <div class="dil-event"><div class="dil-time">All week</div><div class="dil-text">Manage scope items, POs, deliveries — all manual. Track status in their head.</div></div>
+        <div class="dil-event"><div class="dil-time">Month end</div><div class="dil-text">Sit in meeting with Taylor. He calls out project names. They call out estimates.<div class="sub">Taylor types everything into Connect and Excel.</div></div></div>
+        <div class="dil-event"><div class="dil-time">Claims</div><div class="dil-text">Taylor prepares and sends. PM not really in the loop unless there's a dispute.</div></div>
+      </div></div>
+      <div class="dil-col after"><div class="dil-col-hd">After Phase 4</div><div class="dil-col-body">
+        <div class="dil-event"><div class="dil-time">Mon AM</div><div class="dil-text">Monday meeting. Open Projects — progress visible for all jobs.<div class="sub">More time for actual project discussion.</div></div></div>
+        <div class="dil-event"><div class="dil-time">All week</div><div class="dil-text">Same project management work. Scope items, POs, deliveries unchanged.</div></div>
+        <div class="dil-event"><div class="dil-time">Month end</div><div class="dil-text"><strong>New:</strong> Open Financials → Monthly Recap. % already populated.<div class="sub">Review, add notes, click Submit for Taylor's approval.</div></div></div>
+        <div class="dil-event"><div class="dil-time">Claims</div><div class="dil-text">PM owns the recap submission. Taylor approves. PM sees claim go out.<div class="sub">Direct link between their work and revenue.</div></div></div>
+      </div></div>
     </div>
-    <div class="team-card">
-      <div class="team-role">CEO</div>
-      <div class="team-name">Taylor</div>
-      <div class="change-row"><span class="plus">+</span>Reviews and approves PM monthly recap</div>
-      <div class="change-row"><span class="plus">+</span>Reads dashboard Monday mornings</div>
-      <div class="divider"></div>
-      <div class="change-row"><span class="minus">−</span>4 phone calls every Monday morning</div>
-      <div class="change-row"><span class="minus">−</span>30–45 min claim prep per project</div>
-      <div class="change-row"><span class="minus">−</span>Vibe-based profitability calls</div>
+  </div>
+  <!-- Taylor -->
+  <div class="dil-view" id="dil-tay">
+    <div class="dil-ba">
+      <div class="dil-col before"><div class="dil-col-hd">Before</div><div class="dil-col-body">
+        <div class="dil-event"><div class="dil-time">Mon 8am</div><div class="dil-text">Call Al — "What's being fabricated?"<div class="sub">Call Will — "Where are you at on Seaworld?"</div></div></div>
+        <div class="dil-event"><div class="dil-time">Mon 9am</div><div class="dil-text">Call Braden. Call Desi. Get project status from each one.<div class="sub">Monday meeting — status from memory.</div></div></div>
+        <div class="dil-event"><div class="dil-time">Month end</div><div class="dil-text">30–45 min per project building the claim spreadsheet manually.<div class="sub">Excel → match to builder's format → submit.</div></div></div>
+        <div class="dil-event"><div class="dil-time">Always</div><div class="dil-text">"I think we're making money this month."<div class="sub">Cash position = check bank account and hope.</div></div></div>
+      </div></div>
+      <div class="dil-col after"><div class="dil-col-hd">After Phase 4</div><div class="dil-col-body">
+        <div class="dil-event"><div class="dil-time">Mon 8am</div><div class="dil-text"><strong>Open Dashboard.</strong> All 8 projects visible with health status.<div class="sub">2 minutes to read. No calls needed.</div></div></div>
+        <div class="dil-event"><div class="dil-time">Mon 9am</div><div class="dil-text">Monday meeting focused on decisions, not status updates.<div class="sub">Dashboard visible on screen for the whole team.</div></div></div>
+        <div class="dil-event"><div class="dil-time">Month end</div><div class="dil-text"><strong>Notification:</strong> "Braden submitted June recap."<div class="sub">Open Financials → review → Approve. 5 minutes.</div></div></div>
+        <div class="dil-event"><div class="dil-time">Always</div><div class="dil-text">"We're making money — 28.1% average margin."<div class="sub">Cash position is on the dashboard. Answered.</div></div></div>
+      </div></div>
     </div>
   </div>
 </div>
 </section>
 
-<!-- ════════════════ OUT OF SCOPE ════════════════ -->
+<!-- OUT OF SCOPE -->
 <section id="oos">
 <div class="wrap">
   <div class="tag">Deliberately Out of Scope</div>
   <h2>Good ideas — not in this build</h2>
-  <p>All identified during discovery. Excluded for two reasons: the team absorbs one change at a time, and several require Phases 1–4 to be working first before they add value.</p>
+  <p>All identified during discovery. Excluded so the team absorbs one change at a time, and because several need Phases 1–4 working first.</p>
   <div class="oos-grid">
-    <div class="oos-card">
-      <div class="icon">🔗</div>
-      <h3>Asana ↔ Connect Sync</h3>
-      <p>Scope items in Connect auto-create Asana tasks. Removes manual double-handling.</p>
-      <div class="oos-reason">Needs Phase 1 scope structure solid first. Then a clean sync instead of mapping chaos.</div>
-    </div>
-    <div class="oos-card">
-      <div class="icon">📧</div>
-      <h3>Yates Email Integration</h3>
-      <p>Yates completion email auto-creates a delivery pickup in Connect for Dan.</p>
-      <div class="oos-reason">Valuable but not blocking. Manual "Ready for Delivery" tap works for now.</div>
-    </div>
-    <div class="oos-card">
-      <div class="icon">🚨</div>
-      <h3>Formal Defect Tracking</h3>
-      <p>Defect log against project budget during DLP, like variations but post-install.</p>
-      <div class="oos-reason">Currently handled by Procore/Aconex on builder side. Low frequency.</div>
-    </div>
-    <div class="oos-card">
-      <div class="icon">🎯</div>
-      <h3>PM Revenue KPIs</h3>
-      <p>Monthly claim targets per PM tied to project progress.</p>
-      <div class="oos-reason">Needs clean Phase 4 data before targets are meaningful.</div>
-    </div>
-    <div class="oos-card">
-      <div class="icon">📄</div>
-      <h3>Auto Claim Generation</h3>
-      <p>Export builder-specific claim spreadsheet from Connect, matched to their format.</p>
-      <div class="oos-reason">Each builder has a different format. Build Phase 4 data layer first.</div>
-    </div>
-    <div class="oos-card">
-      <div class="icon">🖥️</div>
-      <h3>PayApps Integration</h3>
-      <p>Direct submission to NextDC's PayApps platform from Connect.</p>
-      <div class="oos-reason">Single client. Prove the model works manually first.</div>
-    </div>
-    <div class="oos-card">
-      <div class="icon">📅</div>
-      <h3>Forecast Scheduling Overhaul</h3>
-      <p>Live scheduling with auto-updates when installs are blocked.</p>
-      <div class="oos-reason">Friday forecast works well enough now. Revisit when team doubles.</div>
-    </div>
-    <div class="oos-card">
-      <div class="icon">🏭</div>
-      <h3>Split Fab Crew Tracking</h3>
-      <p>Multiple bays (welding + assembly) with separate crew tracking.</p>
-      <div class="oos-reason">Not planned. Build single-team model first, extend when a second bay opens.</div>
-    </div>
+    <div class="oos-card"><div class="oos-icon">🔗</div><h3>Asana ↔ Connect Sync</h3><p>Scope items in Connect auto-create Asana tasks. Removes manual double-handling.</p><div class="oos-why">Phase 1 scope structure needs to be solid first.</div></div>
+    <div class="oos-card"><div class="oos-icon">📧</div><h3>Yates Email Integration</h3><p>Yates completion email auto-creates a delivery pickup for Dan.</p><div class="oos-why">Manual "Ready for Delivery" tap works for now.</div></div>
+    <div class="oos-card"><div class="oos-icon">🚨</div><h3>Formal Defect Tracking</h3><p>Defect log against project budget during the DLP period.</p><div class="oos-why">Currently handled by Procore/Aconex. Low frequency.</div></div>
+    <div class="oos-card"><div class="oos-icon">🎯</div><h3>PM Revenue KPIs</h3><p>Monthly claim targets per PM tied to project progress.</p><div class="oos-why">Needs clean Phase 4 data before targets mean anything.</div></div>
+    <div class="oos-card"><div class="oos-icon">📄</div><h3>Auto Claim Generation</h3><p>Export builder-specific claim spreadsheet matched to their format.</p><div class="oos-why">Each builder is different. Build the data layer first.</div></div>
+    <div class="oos-card"><div class="oos-icon">🖥️</div><h3>PayApps Integration</h3><p>Direct submission to NextDC's PayApps platform from Connect.</p><div class="oos-why">Single client. Prove model manually first.</div></div>
+    <div class="oos-card"><div class="oos-icon">📅</div><h3>Forecast Scheduling Overhaul</h3><p>Live scheduling with auto-updates when installs are blocked.</p><div class="oos-why">Friday forecast works now. Revisit when team doubles.</div></div>
+    <div class="oos-card"><div class="oos-icon">🏭</div><h3>Split Fab Crew Tracking</h3><p>Multiple bays (welding + assembly) with separate crew tracking.</p><div class="oos-why">Build single-team model first. Extend when second bay opens.</div></div>
   </div>
 </div>
 </section>
 
-<!-- ════════════════ TIMELINE ════════════════ -->
+<!-- TIMELINE -->
 <section id="timeline">
 <div class="wrap">
   <div class="tag">Rollout</div>
   <h2>10 weeks — one phase at a time</h2>
-  <p>Each phase is bedded in before the next starts. The architecture is built holistically. The activation is layered.</p>
+  <p>Each phase beds in before the next starts. The architecture is built holistically. The activation is layered.</p>
   <div class="tl-grid">
-    <div class="tl-card tl1"><div class="tl-top">Weeks 1–2</div><div class="tl-body"><h3>Phase 1 — Foundation</h3><p>Scope structure, stage pipeline. PM setup only.</p></div></div>
-    <div class="tl-card tl2"><div class="tl-top">Weeks 3–4</div><div class="tl-body"><h3>Phase 2 — Fab Tracking</h3><p>Al's daily % · QA checklist · Powder Coat auto-trigger.</p></div></div>
-    <div class="tl-card tl3"><div class="tl-top">Weeks 5–6</div><div class="tl-body"><h3>Phase 3 — Install Tracking</h3><p>Friday install log inside QuickLog.</p></div></div>
+    <div class="tl-card tl1"><div class="tl-top">Weeks 1–2</div><div class="tl-body"><h3>Phase 1 — Foundation</h3><p>Scope structure + stage pipeline. PM setup only.</p></div></div>
+    <div class="tl-card tl2"><div class="tl-top">Weeks 3–4</div><div class="tl-body"><h3>Phase 2 — Fab Tracking</h3><p>Al's daily % · QA sign-off · Powder Coat auto-trigger.</p></div></div>
+    <div class="tl-card tl3"><div class="tl-top">Weeks 5–6</div><div class="tl-body"><h3>Phase 3 — Install Tracking</h3><p>Friday install log inside Quick Log.</p></div></div>
     <div class="tl-card tl4"><div class="tl-top">Weeks 7–10</div><div class="tl-body"><h3>Phase 4 — Claims &amp; Dashboard</h3><p>PM recap · Taylor approves · Dashboard live.</p></div></div>
   </div>
-  <div class="note mt15">
-    <p><strong>Design principle:</strong> Holistic architecture, layered activation. The full system is designed and built as one connected piece. Activated in stages so the team adapts to one new habit at a time. Each phase delivers standalone value before the next starts.</p>
-  </div>
+  <div class="note mt15"><p><strong>Design principle:</strong> Holistic architecture, layered activation. The full system is designed as one connected piece — scope structure, fab inputs, install inputs, claims, and leadership view all built together. Activated in stages so the team adapts to one new habit at a time.</p></div>
 </div>
 </section>
+<footer><div class="wrap"><p>Invicta Industries &nbsp;·&nbsp; Progress Tracking System Design &nbsp;·&nbsp; Two to Tango &nbsp;·&nbsp; June 2026</p></div></footer>
 
-<footer>
-  <div class="wrap"><p>Invicta Industries &nbsp;·&nbsp; Progress Tracking System Design &nbsp;·&nbsp; Two to Tango &nbsp;·&nbsp; June 2026</p></div>
-</footer>
+<script>
+// ─── PIPELINE ───────────────────────────────────
+const stageData = {
+  new:  { name:'New Project', col:'#666f85', who:'PM at contract signing', how:'Manual — PM creates project and assigns locations + scope items', trigger:'When: project is won and scope is confirmed from Groundplan takeoff', phase:'Phase 1', ex:'e.g. East Brisbane Social Housing created with 24 scope items across 8 levels' },
+  draft:{ name:'Drafting', col:'#2563eb', who:'PM / drafting team (Lee, Jordan, Sony)', how:'Manual — PM moves item to Drafting when handed to the drafting team', trigger:'When: scope item handed to drafting for concept through to IFC', phase:'Phase 1', ex:'e.g. BAL01 Balustrade moved to Drafting when Lee starts concept drawings' },
+  fab:  { name:'Fabricating', col:'#4f46e5', who:'Al (factory manager) — daily number input', how:'Number input (0–100) in the Factory View. Al types % at end of each day', trigger:'When: IFC drawings confirmed + BOM uploaded. PM or Al taps to start', phase:'Phase 2', ex:'e.g. Al types "60" for AM05 Screens at 4:30pm on Thursday' },
+  pc:   { name:'Powder Coat', col:'#f59e0b', who:'⚡ Auto-triggered — no action needed', how:'Automatically set when a "leaving factory" delivery to Yates is confirmed in Deliveries', trigger:'Welded items only. Pre-PC items (louvers, glazing) skip this stage entirely', phase:'Phase 2', ex:'e.g. L2 Kennedy Gates → Powder Coat the moment Dan\'s delivery to Yates is confirmed' },
+  rfd:  { name:'Ready for Delivery', col:'#0d9488', who:'Al or PM', how:'Al taps "Mark Ready for Delivery" in Factory View when item is back from Yates or pre-PC item is fully assembled', trigger:'Welded: when back from Yates. Pre-PC: when Al marks fab at 100%', phase:'Phase 2', ex:'e.g. THOR Louvers assembled → Al taps Ready for Delivery → Dan schedules pickup' },
+  del:  { name:'Delivered', col:'#2e8555', who:'⚡ Auto-triggered — no action needed', how:'Automatically set when a delivery to site is confirmed in Deliveries (existing Deliveries workflow)', trigger:'When: delivery to site is confirmed with photo in Deliveries tab', phase:'Phase 2', ex:'e.g. Seaworld SCR04 Battens → Delivered the moment Dan confirms the site drop-off' },
+  ins:  { name:'Installing', col:'#7c3aed', who:'Install lead — weekly number input', how:'Number input (0–100) in the Friday Quick Log weekly update prompt', trigger:'When: delivery confirmed + install lead starts on site. Friday update auto-prompted', phase:'Phase 3', ex:'e.g. Will types "45" for SCR01-A Batten Screens at end of Friday' },
+  done: { name:'Installed', col:'#16a34a', who:'Install lead', how:'Install lead taps "Mark Installed" when scope item is 100% complete — sealant, capping, hardware, all done', trigger:'When: 100% physically complete. Install lead confirms in Connect', phase:'Phase 3', ex:'e.g. Pergola 1–5 on Seaworld marked Installed after final walk-through' }
+};
+let activeStage = null;
+function showStage(key) {
+  const detail = document.getElementById('pipe-detail');
+  const content = document.getElementById('pd-content');
+  if (activeStage === key) {
+    detail.classList.remove('show');
+    document.getElementById('ps-'+key).classList.remove('active');
+    activeStage = null;
+    return;
+  }
+  if (activeStage) document.getElementById('ps-'+activeStage).classList.remove('active');
+  activeStage = key;
+  document.getElementById('ps-'+key).classList.add('active');
+  const d = stageData[key];
+  content.innerHTML = `
+    <div class="pd-title"><div style="width:10px;height:10px;border-radius:50%;background:${d.col};flex-shrink:0"></div>${d.name}
+      <span style="font-size:10px;font-weight:700;padding:.15rem .5rem;border-radius:4px;background:rgba(16,185,129,.12);color:var(--gr);margin-left:.25rem">${d.phase}</span>
+    </div>
+    <div class="pd-grid">
+      <div class="pd-item"><div class="pd-lbl">Updated by</div><div class="pd-val">${d.who}</div></div>
+      <div class="pd-item"><div class="pd-lbl">How</div><div class="pd-val">${d.how}</div></div>
+      <div class="pd-item"><div class="pd-lbl">Trigger</div><div class="pd-val">${d.trigger}</div></div>
+    </div>
+    <div style="margin-top:.75rem;padding:.6rem .875rem;background:rgba(255,255,255,.03);border-radius:6px;border:1px solid var(--bdr)"><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mu);margin-bottom:.25rem">Example</div><div style="font-size:.82rem;color:var(--tx)">${d.ex}</div></div>`;
+  detail.classList.add('show');
+}
+
+// ─── WIZARD ─────────────────────────────────────
+let wizStep = 1;
+function wizGo(step) {
+  document.getElementById('wz'+wizStep).classList.remove('show');
+  document.getElementById('ws'+wizStep).className = 'wiz-step done';
+  document.getElementById('wsn'+wizStep).textContent = '✓';
+  wizStep = step;
+  document.getElementById('wz'+step).classList.add('show');
+  document.getElementById('ws'+step).classList.add('act');
+  document.getElementById('ws'+step).style.color = '';
+}
+function selStruct(type) {
+  document.getElementById('sc-lv').classList.toggle('sel', type==='lv');
+  document.getElementById('sc-bld').classList.toggle('sel', type==='bld');
+  document.getElementById('sc-bld').querySelector('.sc-ex').style.color = type==='bld' ? 'var(--app-ok)' : 'var(--app-mu)';
+  document.getElementById('loc-type-lbl').textContent = type==='lv' ? 'levels' : 'buildings';
+  document.getElementById('loc-inp').placeholder = type==='lv' ? 'Add level…' : 'Add building…';
+}
+function addLoc() {
+  const inp = document.getElementById('loc-inp');
+  const val = inp.value.trim();
+  if (!val) return;
+  const chips = document.getElementById('loc-chips');
+  const chip = document.createElement('span');
+  chip.className = 'loc-chip';
+  chip.textContent = val;
+  chips.appendChild(chip);
+  inp.value = '';
+  inp.focus();
+}
+
+// ─── FAB % INPUTS ────────────────────────────────
+function checkFab3() {
+  const v = parseInt(document.getElementById('fab3').value) || 0;
+  const clamped = Math.min(100, Math.max(0, v));
+  document.getElementById('fp3').style.width = clamped + '%';
+  const rdy = document.getElementById('rdy-btn');
+  const hint = document.getElementById('fab3-hint');
+  if (v >= 100) {
+    rdy.classList.add('show');
+    hint.style.display = 'none';
+    document.getElementById('fab3-card').style.borderColor = 'rgba(13,148,136,.3)';
+    document.getElementById('fab3-card').style.background = 'rgba(13,148,136,.03)';
+  } else {
+    rdy.classList.remove('show');
+    hint.style.display = '';
+    document.getElementById('fab3-card').style.borderColor = '';
+    document.getElementById('fab3-card').style.background = '';
+  }
+}
+// Live bar updates for fab1/fab2
+['fab1','fab2'].forEach((id,i) => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('input', function() {
+    const v = Math.min(100, Math.max(0, parseInt(this.value)||0));
+    document.getElementById('fp'+(i+1)).style.width = v + '%';
+  });
+});
+
+// ─── QA CHECKLIST ────────────────────────────────
+function tickQA(n) {
+  const el = document.getElementById('qa'+n);
+  if (!el || el.classList.contains('qa-done')) return;
+  el.classList.remove('qa-wait','qa-pend','qa-clickable');
+  el.classList.add('qa-done');
+  el.onclick = null;
+  const icon = document.getElementById('qa'+n+'-icon');
+  if (icon) icon.textContent = '✅';
+  const meta = document.getElementById('qa'+n+'-meta');
+  if (meta) { const now = new Date(); meta.textContent = 'Just now · ' + now.toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'}); }
+  const badge = document.getElementById('qa'+n+'-badge');
+  if (badge) { badge.className = 'ab ab-ok'; badge.textContent = 'Signed off'; }
+  // Make next item clickable
+  const next = document.getElementById('qa'+(n+1));
+  if (next && next.classList.contains('qa-wait')) {
+    next.classList.add('qa-clickable');
+    const nm = document.getElementById('qa'+(n+1)+'-meta');
+    if (nm) nm.textContent = 'Click to sign off';
+  }
+}
+
+// ─── APPROVAL FLOW ───────────────────────────────
+let pmSubmitted = false;
+function afSwitch(view) {
+  document.getElementById('afv-pm').classList.toggle('show', view==='pm');
+  document.getElementById('afv-tay').classList.toggle('show', view==='tay');
+  document.getElementById('aft-pm').classList.toggle('act', view==='pm');
+  document.getElementById('aft-tay').classList.toggle('act', view==='tay');
+  if (view==='tay' && pmSubmitted) {
+    document.getElementById('tay-notice').style.display = 'block';
+  }
+}
+function pmSubmit() {
+  pmSubmitted = true;
+  document.getElementById('af-pm-submitted').style.display = 'block';
+  document.getElementById('pm-submit-btn').textContent = '✓ Submitted';
+  document.getElementById('pm-submit-btn').className = 'app-btn btn-out';
+  document.getElementById('pm-submit-btn').onclick = null;
+}
+function tayApprove() {
+  document.getElementById('tay-approved').style.display = 'block';
+  document.getElementById('tay-approve-row').style.display = 'none';
+  document.getElementById('tay-notice').textContent = '✅ You approved the June recap — claims ready to send';
+  document.getElementById('tay-notice').style.background = 'rgba(46,133,85,.06)';
+  document.getElementById('tay-notice').style.borderColor = 'rgba(46,133,85,.2)';
+  document.getElementById('tay-notice').style.color = 'var(--app-ok)';
+}
+
+// ─── DAY IN LIFE ─────────────────────────────────
+function dilSwitch(role) {
+  ['al','ins','pm','tay'].forEach(r => {
+    const v = document.getElementById('dil-'+r);
+    if (v) v.classList.toggle('show', r===role);
+  });
+  document.querySelectorAll('.dil-tab').forEach((t,i) => {
+    t.classList.toggle('act', ['al','ins','pm','tay'][i] === role);
+  });
+}
+</script>
 </body>
 </html>
