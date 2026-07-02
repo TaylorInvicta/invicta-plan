@@ -90,7 +90,9 @@ p:last-child{margin-bottom:0}
 /* NOTE */
 .note{background:var(--s1);border:1px solid var(--bdr);border-radius:8px;padding:.8rem 1rem;margin-top:.875rem}
 .note p{font-size:.83rem;margin:0}
+.note p+p{margin-top:.5rem}
 .note strong{color:var(--tx)}
+.v2c{display:inline-flex;font-size:9px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;background:rgba(13,148,136,.15);color:#2dd4bf;border-radius:4px;padding:.1rem .4rem;margin-left:.45rem;vertical-align:middle}
 /* ─── APP MOCKS ─── */
 .app{background:var(--app-bg);border-radius:14px;overflow:hidden;font-family:'Inter',sans-serif;font-size:13px;color:var(--app-tx);box-shadow:0 20px 50px rgba(0,0,0,.5)}
 .app-frame{display:flex;min-height:260px}
@@ -222,7 +224,8 @@ p:last-child{margin-bottom:0}
 .wiz-body{padding:1rem}
 .wiz-screen{display:none}
 .wiz-screen.show{display:block}
-.struct-cards{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.5rem 0}
+.struct-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin:.5rem 0}
+@media(max-width:560px){.struct-cards{grid-template-columns:1fr}}
 .struct-card{border:2px solid var(--app-bdr);border-radius:8px;padding:.75rem;cursor:pointer;transition:border-color .15s,background .15s}
 .struct-card:hover{border-color:var(--app-pr)}
 .struct-card.sel{border-color:var(--app-ok);background:rgba(46,133,85,.05)}
@@ -319,7 +322,7 @@ footer p{font-size:.78rem;color:var(--dim)}
 <!-- HERO -->
 <section id="hero">
 <div class="wrap">
-  <div class="tag">Progress Tracking System — Design Brief</div>
+  <div class="tag">Progress Tracking System — Design Brief · v2, updated 2 July</div>
   <h1 style="font-size:clamp(1.9rem,4vw,2.9rem);font-weight:900;line-height:1.12;letter-spacing:-.02em;margin-bottom:1.1rem">Building the system that answers<br><em style="font-style:normal;color:var(--gr)">"Are we making money?"</em></h1>
   <p class="hero-sub">A four-phase build across existing Connect tabs. Real-time visibility from scope setup through fabrication, powder coat, delivery, and installation. Three new habits. Ten weeks.</p>
   <div class="hero-stats">
@@ -490,6 +493,9 @@ footer p{font-size:.78rem;color:var(--dim)}
     <div class="pl-i"><div class="pl-d" style="background:#4b5563"></div>Manual stage update</div>
   </div>
   <div class="note mt1"><p><strong>Pre-PC items</strong> (louvers, glazing) skip Powder Coat — go directly Fabricating → Ready for Delivery. Set at scope item creation, editable any time.</p></div>
+  <div class="note"><p><strong>Partial batches<span class="v2c">v2</span></strong> — a scope item often goes to Yates or to site across more than one load. The stage only advances when the <em style="font-style:normal;color:var(--tx)">last unit</em> of that item has moved; until then the fab / install % carries the truth. A half-shipped item stays Fabricating with its % climbing — it never falsely shows Powder Coat.</p>
+  <p><strong>On Hold<span class="v2c">v2</span></strong> — when a drawing revision (Rev 01) lands after IFC, the PM flags the item On Hold in Connect. It shows immediately in Al's Factory View, replacing the phone-call-and-pull-the-pack-off-the-floor routine. Cleared when the revised pack is reissued.</p>
+  <p><strong>Stages can move backwards<span class="v2c">v2</span></strong> — rework and defects happen. Any stage change, forwards or back, is logged with who and when.</p></div>
 </div>
 </section>
 
@@ -575,7 +581,7 @@ footer p{font-size:.78rem;color:var(--dim)}
   <!-- Wizard -->
   <div class="tc mt2">
     <div class="tl"><div class="tc-chip new-tab">✦ New Project Setup Wizard</div><span class="ct-new">New feature</span></div>
-    <p class="tc-desc">When a PM creates a new project, a 3-step wizard guides the scope structure setup. Try it — it's interactive.</p>
+    <p class="tc-desc">When a PM creates a new project, a 3-step wizard guides the scope structure setup — level-based, building-based, or scope-based. Try it — it's interactive.</p>
     <div class="app" style="max-width:600px">
       <div class="app-frame" style="min-height:0;flex-direction:column">
         <div class="app-h" style="padding:.875rem 1rem .5rem;border-bottom:1px solid var(--app-bdr)">
@@ -601,6 +607,11 @@ footer p{font-size:.78rem;color:var(--dim)}
                   <div class="sc-sub">Multiple buildings on one site.</div>
                   <div class="sc-ex" style="color:var(--app-mu)">e.g. Logan State School</div>
                 </div>
+                <div class="struct-card" id="sc-sc" onclick="selStruct('sc')">
+                  <div class="sc-title">📦 Scope-based <span class="v2c" style="margin-left:.2rem">v2</span></div>
+                  <div class="sc-sub">No location split — track by scope package alone.</div>
+                  <div class="sc-ex" style="color:var(--app-mu)">e.g. one-off jobs, single-zone work</div>
+                </div>
               </div>
               <div class="wiz-nav"><div></div><button class="app-btn btn-pr" onclick="wizGo(2)">Next →</button></div>
             </div>
@@ -613,6 +624,7 @@ footer p{font-size:.78rem;color:var(--dim)}
                 <span class="loc-chip">Level 4</span>
               </div>
               <div class="loc-row"><input class="app-inp" id="loc-inp" placeholder="Add level…" style="flex:1" onkeydown="if(event.key==='Enter')addLoc()"/><button class="app-btn btn-pr" onclick="addLoc()">Add</button></div>
+              <div style="font-size:10.5px;color:var(--app-mu);margin-top:.4rem">📐 Each location carries a <strong style="color:var(--app-tx)">Site Measured</strong> milestone — a production gate before welded items can fabricate. <span class="v2c" style="margin-left:.2rem">v2</span></div>
               <div class="wiz-nav"><button class="app-btn btn-out" onclick="wizGo(1)">← Back</button><button class="app-btn btn-pr" onclick="wizGo(3)">Next →</button></div>
             </div>
             <div class="wiz-screen" id="wz3">
@@ -642,7 +654,16 @@ footer p{font-size:.78rem;color:var(--dim)}
     </div>
   </div>
 
-  <div class="ob"><div class="ol">Phase 1 Outcome</div><p>Taylor opens Projects on Monday and sees every project with its current progress and health status at a glance. No phone calls needed. Foundation for everything that follows.</p></div>
+  <!-- Also in Phase 1 (v2) -->
+  <div class="tc mt2">
+    <div class="tl"><div class="tc-chip"><div class="dot" style="background:#10b981"></div>Also in Phase 1</div><span class="ct-new">Added in v2</span></div>
+    <div class="note" style="margin-top:0"><p><strong>Defect scope items<span class="v2c">v2</span></strong> — defects get created as their own scope item type, drawing on a per-project defect allowance that covers drafting, fab, or install changes. Invicta sees maybe 20–30 defects a project (other trades see thousands) — so it's lightweight, but it's accounted for instead of silently eating the original item's hours.</p>
+    <p><strong>Variation guard<span class="v2c">v2</span></strong> — all contract scope items are created at signing, so any item added later is almost by definition a variation. Adding one mid-project prompts "Is this a variation?" — defaulting to yes. Closes the gap where variations get typed in as plain scope items in the rush of the day.</p>
+    <p><strong>Existing projects migrate too<span class="v2c">v2</span></strong> — Logan already matches the target structure. East Brisbane, Seaworld, and the other live jobs get restructured to it during week 2, by the PMs with support. New projects start right; live ones catch up.</p>
+    <p><strong>Straight talk on week 1–2 data<span class="v2c">v2</span></strong> — Phase 1 progress bars run on stage + drafting data. The real fab % lands in Phase 2 and install % in Phase 3. The structure comes first; the numbers fill in behind it.</p></div>
+  </div>
+
+  <div class="ob"><div class="ol">Phase 1 Outcome</div><p>Taylor opens Projects on Monday and sees every project with its structure, stages, and health status at a glance — powered by stage data at first, with real fab and install percentages arriving in Phases 2 and 3. Foundation for everything that follows.</p></div>
 </div>
 </section>
 
@@ -671,7 +692,7 @@ footer p{font-size:.78rem;color:var(--dim)}
             <div><div class="app-title">Production</div><div class="app-sub">Factory View · Thu 26 Jun 2026</div></div>
             <div style="display:flex;gap:.4rem"><button class="app-btn btn-out" style="font-size:11px">All Items</button><button class="app-btn btn-pr" style="font-size:11px">Factory View</button></div>
           </div>
-          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--app-mu);margin-bottom:.6rem">Items in Fabrication (3)</div>
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--app-mu);margin-bottom:.6rem">Items in Fabrication (4)</div>
           <!-- Item 1 -->
           <div class="ac">
             <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem"><div><div class="ac-name">AM05 Perforated Screens — LSP-LJ2</div><div class="ac-sub">Logan State School · Building 4 · Welded</div></div><span class="sb sb-fab"><span class="sb-d"></span>Fabricating</span></div>
@@ -692,13 +713,19 @@ footer p{font-size:.78rem;color:var(--dim)}
             <div style="margin-top:.6rem;font-size:11px;color:var(--app-mu)" id="fab3-hint">↑ Set to 100% to mark complete</div>
             <button class="app-btn btn-tl rdy-btn" id="rdy-btn" style="margin-top:.5rem;width:100%;justify-content:center">→ Mark Ready for Delivery</button>
           </div>
+          <!-- Item 4 — on hold (v2) -->
+          <div class="ac" style="border-color:rgba(245,158,11,.35);background:rgba(245,158,11,.04)">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem"><div><div class="ac-name">L4 Wellington Screens</div><div class="ac-sub">East Brisbane Social Housing · Welded</div></div><span class="ab ab-wn">⏸ On Hold — Rev 01</span></div>
+            <div style="margin-top:.45rem;font-size:11px;color:#92400e">Drawing revision issued — Braiden flagged the hold from his desk. No % input until the revised pack lands.</div>
+          </div>
           <div style="margin-top:.875rem;padding-top:.75rem;border-top:1px solid var(--app-bdr);display:flex;justify-content:flex-end">
             <button class="app-btn btn-pr">Save Today's Update</button>
           </div>
         </div>
       </div>
     </div>
-    <div class="note mt1"><p><strong>Pre-PC items</strong> skip the Powder Coat stage entirely — when Al marks them 100% and taps Ready for Delivery, they move straight to that stage. Welded items go to Powder Coat when the delivery to Yates is confirmed.</p></div>
+    <div class="note mt1"><p><strong>Pre-PC items</strong> skip the Powder Coat stage entirely — when Al marks them 100% and taps Ready for Delivery, they move straight to that stage. Welded items go to Powder Coat when the delivery to Yates is confirmed.</p>
+    <p><strong>If Al is away<span class="v2c">v2</span></strong> — a nominated backup enters the day's % in Factory View. The update belongs to the role, not the person, so the daily habit never skips a beat.</p></div>
   </div>
 
   <!-- Deliveries auto-trigger -->
@@ -722,12 +749,13 @@ footer p{font-size:.78rem;color:var(--dim)}
         </div>
       </div>
     </div>
+    <div class="note mt1"><p><strong>The Yates black hole gets a clock<span class="v2c">v2</span></strong> — every item at Powder Coat shows "at Yates 4 days · due back ~3 Jul" (5–7 working day default) and flags amber when overdue. No email integration needed yet — just a counter that starts when the Yates delivery is confirmed.</p></div>
   </div>
 
   <!-- QA Checklist -->
   <div class="tc mt2">
     <div class="tl"><div class="tc-chip new-tab">✦ Project Detail → QA Checklist tab</div><span class="ct-new">New tab</span></div>
-    <p class="tc-desc">Each scope item gets a QA checklist with digital sign-off at each stage. Click the unchecked items to see them tick off. Exportable as internal ISO audit report. All scope items — steps adapt to item type.</p>
+    <p class="tc-desc">Each scope item gets a QA checklist with digital sign-off at each stage. Click the unchecked items to see them tick off. Exportable as internal ISO audit report. All scope items — steps adapt to item type. The Powder Coat step records receipt back from Yates against the docket — pallets stay wrapped until site, so it's an honest receipt check, not a pretend re-inspection.</p>
     <div class="app" style="max-width:520px">
       <div class="app-frame" style="min-height:0">
         <div class="app-sb" style="width:155px"><div class="app-sb-logo">Invicta Connect</div><div class="app-ni act">· Projects</div></div>
@@ -754,14 +782,14 @@ footer p{font-size:.78rem;color:var(--dim)}
 <section id="phase3" class="p3">
 <div class="wrap">
   <div class="ph"><div class="pn">3</div><div><span class="pt">Install Tracking<span class="pw">WEEKS 5–6</span></span></div></div>
-  <p class="pd">Install leads update % completion at end of Friday — triggered automatically inside the existing Quick Log flow. 2 minutes, no separate admin task.</p>
+  <p class="pd">Install leads update % completion inside the existing Quick Log flow — daily if that's their rhythm, with Friday as the guaranteed weekly catch-all. 2 minutes, no separate admin task.</p>
 
   <!-- Quick Log extended -->
   <div class="tc">
-    <div class="tl"><div class="tc-chip"><div class="dot" style="background:#8b5cf6"></div>Quick Log tab</div><span class="ct-ext">Extended — Friday triggers weekly update</span></div>
-    <p class="tc-desc">Nothing changes Mon–Thu. On Fridays, after saving hours, a weekly update prompt appears. It's pre-populated with scope items they worked on that week — just fill in % and any blockers.</p>
+    <div class="tl"><div class="tc-chip"><div class="dot" style="background:#8b5cf6"></div>Quick Log tab</div><span class="ct-ext">Extended — daily optional, Friday guaranteed</span></div>
+    <p class="tc-desc">Mon–Thu nothing is forced — but an optional "update install %" is one tap away for leads who prefer logging daily. <span class="v2c" style="margin-left:0">v2</span> On Fridays, after saving hours, the weekly update prompt appears automatically. It's pre-populated with scope items they worked on that week — just fill in % and any blockers.</p>
     <div class="ba-row">
-      <div><div class="ba-lbl before">Any day — unchanged</div>
+      <div><div class="ba-lbl before">Any day — % update optional</div>
         <div class="app"><div class="app-frame" style="min-height:0">
           <div class="app-sb" style="width:155px"><div class="app-sb-logo">Invicta Connect</div><div class="app-ns">Time</div><div class="app-ni act hi">· Quick Log</div><div class="app-ni">· Time Entries</div></div>
           <div class="app-main">
@@ -770,7 +798,8 @@ footer p{font-size:.78rem;color:var(--dim)}
               <div style="display:flex;gap:.4rem;margin-bottom:.5rem"><select class="app-inp" style="flex:2"><option>Seaworld Multiplex</option></select><select class="app-inp" style="flex:2"><option>SCR01-A Batten Screens</option></select><input class="app-inp" style="width:52px;text-align:center" value="8h"/></div>
             </div>
             <button class="app-btn btn-pr" style="margin-top:.6rem;width:100%;justify-content:center">Save Hours</button>
-            <div style="font-size:11px;color:var(--app-mu);text-align:center;margin-top:.4rem">No weekly update on weekdays</div>
+            <button class="app-btn btn-out" style="margin-top:.4rem;width:100%;justify-content:center;font-size:11px">+ Update install % (optional)</button>
+            <div style="font-size:11px;color:var(--app-mu);text-align:center;margin-top:.4rem">Nothing forced on weekdays — daily logging there if they want it</div>
           </div>
         </div></div>
       </div>
@@ -845,6 +874,29 @@ footer p{font-size:.78rem;color:var(--dim)}
 <div class="wrap">
   <div class="ph"><div class="pn">4</div><div><span class="pt">Claims &amp; Leadership Dashboard<span class="pw">WEEKS 7–10</span></span></div></div>
   <p class="pd">PMs own the monthly recap. Taylor reviews and approves. The Monday morning dashboard goes live.</p>
+
+  <!-- Claim % roll-up (v2) -->
+  <div class="tc">
+    <div class="tl"><div class="tc-chip"><div class="dot" style="background:#f59e0b"></div>How the claim % is calculated</div><span class="ct-new">Added in v2</span></div>
+    <p class="tc-desc">Fab % and install % are two numbers — the recap needs one. Each scope item's <strong style="color:var(--tx)">overall %</strong> is a value-weighted blend of its stages, so the claim is defensible line by line and early-stage work (drawings issued, materials ordered) still claims what current practice allows.</p>
+    <div style="background:var(--s1);border:1px solid var(--bdr);border-radius:10px;padding:1rem 1.1rem">
+      <div style="font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--mu);margin-bottom:.6rem">Worked example — BAL01 Gates &amp; Frames (welded, supply + install)</div>
+      <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.8rem;min-width:420px">
+        <thead><tr style="color:var(--mu);font-size:10px;text-transform:uppercase;letter-spacing:.06em"><th style="text-align:left;padding:.3rem .5rem;border-bottom:1px solid var(--bdr)">Stage</th><th style="text-align:center;padding:.3rem .5rem;border-bottom:1px solid var(--bdr)">Weight</th><th style="text-align:center;padding:.3rem .5rem;border-bottom:1px solid var(--bdr)">Status</th><th style="text-align:right;padding:.3rem .5rem;border-bottom:1px solid var(--bdr)">Earns</th></tr></thead>
+        <tbody style="color:var(--tx)">
+          <tr><td style="padding:.35rem .5rem;border-bottom:1px solid var(--bdr)">Drafting (IFC issued)</td><td style="text-align:center;border-bottom:1px solid var(--bdr)">10%</td><td style="text-align:center;border-bottom:1px solid var(--bdr);color:var(--gr)">Done</td><td style="text-align:right;border-bottom:1px solid var(--bdr);font-weight:700">10%</td></tr>
+          <tr><td style="padding:.35rem .5rem;border-bottom:1px solid var(--bdr)">Materials ordered</td><td style="text-align:center;border-bottom:1px solid var(--bdr)">15%</td><td style="text-align:center;border-bottom:1px solid var(--bdr);color:var(--gr)">PO sent</td><td style="text-align:right;border-bottom:1px solid var(--bdr);font-weight:700">15%</td></tr>
+          <tr><td style="padding:.35rem .5rem;border-bottom:1px solid var(--bdr)">Fabrication</td><td style="text-align:center;border-bottom:1px solid var(--bdr)">35%</td><td style="text-align:center;border-bottom:1px solid var(--bdr);color:#818cf8">60% (Al's daily log)</td><td style="text-align:right;border-bottom:1px solid var(--bdr);font-weight:700">21%</td></tr>
+          <tr><td style="padding:.35rem .5rem;border-bottom:1px solid var(--bdr)">Delivered to site</td><td style="text-align:center;border-bottom:1px solid var(--bdr)">5%</td><td style="text-align:center;border-bottom:1px solid var(--bdr);color:var(--mu)">Not yet</td><td style="text-align:right;border-bottom:1px solid var(--bdr)">0%</td></tr>
+          <tr><td style="padding:.35rem .5rem">Install</td><td style="text-align:center">35%</td><td style="text-align:center;color:var(--mu)">Not started</td><td style="text-align:right">0%</td></tr>
+        </tbody>
+        <tfoot><tr style="color:var(--tx)"><td colspan="3" style="padding:.45rem .5rem;border-top:1px solid var(--bdr2);font-weight:700">Overall % — auto-filled into the recap</td><td style="text-align:right;padding:.45rem .5rem;border-top:1px solid var(--bdr2);font-weight:800;color:var(--gr);font-size:.95rem">46%</td></tr></tfoot>
+      </table></div>
+    </div>
+    <div class="note"><p><strong>Weights are starting defaults per item type</strong> — Taylor tunes them once per type (welded / pre-PC / supply-only) and they apply everywhere. Supply-only items carry no install weight and finish at Delivered.</p>
+    <p><strong>Project progress is value-weighted too</strong> — a $200k scope item moves the project bar further than a $6k one. No misleading simple averages.</p>
+    <p><strong>PMs can override any auto %</strong> in the recap — the override is flagged to Taylor with the variance shown, so judgment stays possible but visible.</p></div>
+  </div>
 
   <!-- Monthly Recap approval flow -->
   <div class="tc">
@@ -942,6 +994,8 @@ footer p{font-size:.78rem;color:var(--dim)}
       </div>
     </div>
   </div>
+
+  <div class="note"><p><strong>One source of truth<span class="v2c">v2</span></strong> — Claimed MTD and Cash Position on this dashboard come from the same calculations that power the existing CFO Brief. One concept, one definition, one number — never two versions of "cash" on two screens.</p></div>
 
   <div class="ob"><div class="ol">Phase 4 Outcome</div><p>Monday morning: open Dashboard. All projects, all margins, all status at a glance. Monthly recap is pre-populated — PM submits, Taylor approves, done. "Are we making money?" is a screen, not a question.</p></div>
 </div>
@@ -1043,7 +1097,7 @@ footer p{font-size:.78rem;color:var(--dim)}
   <div class="oos-grid">
     <div class="oos-card"><div class="oos-icon">🔗</div><h3>Asana ↔ Connect Sync</h3><p>Scope items in Connect auto-create Asana tasks. Removes manual double-handling.</p><div class="oos-why">Phase 1 scope structure needs to be solid first.</div></div>
     <div class="oos-card"><div class="oos-icon">📧</div><h3>Yates Email Integration</h3><p>Yates completion email auto-creates a delivery pickup for Dan.</p><div class="oos-why">Manual "Ready for Delivery" tap works for now.</div></div>
-    <div class="oos-card"><div class="oos-icon">🚨</div><h3>Formal Defect Tracking</h3><p>Defect log against project budget during the DLP period.</p><div class="oos-why">Currently handled by Procore/Aconex. Low frequency.</div></div>
+    <div class="oos-card"><div class="oos-icon">🚨</div><h3>Builder Defect Sync</h3><p>Pulling Procore/Aconex defects into Connect automatically.</p><div class="oos-why">Defect scope items with budget are now IN scope (Phase 1) — only the builder-system integration waits.</div></div>
     <div class="oos-card"><div class="oos-icon">🎯</div><h3>PM Revenue KPIs</h3><p>Monthly claim targets per PM tied to project progress.</p><div class="oos-why">Needs clean Phase 4 data before targets mean anything.</div></div>
     <div class="oos-card"><div class="oos-icon">📄</div><h3>Auto Claim Generation</h3><p>Export builder-specific claim spreadsheet matched to their format.</p><div class="oos-why">Each builder is different. Build the data layer first.</div></div>
     <div class="oos-card"><div class="oos-icon">🖥️</div><h3>PayApps Integration</h3><p>Direct submission to NextDC's PayApps platform from Connect.</p><div class="oos-why">Single client. Prove model manually first.</div></div>
@@ -1065,7 +1119,8 @@ footer p{font-size:.78rem;color:var(--dim)}
     <div class="tl-card tl3"><div class="tl-top">Weeks 5–6</div><div class="tl-body"><h3>Phase 3 — Install Tracking</h3><p>Friday install log inside Quick Log.</p></div></div>
     <div class="tl-card tl4"><div class="tl-top">Weeks 7–10</div><div class="tl-body"><h3>Phase 4 — Claims &amp; Dashboard</h3><p>PM recap · Taylor approves · Dashboard live.</p></div></div>
   </div>
-  <div class="note mt15"><p><strong>Design principle:</strong> Holistic architecture, layered activation. The full system is designed as one connected piece — scope structure, fab inputs, install inputs, claims, and leadership view all built together. Activated in stages so the team adapts to one new habit at a time.</p></div>
+  <div class="note mt15"><p><strong>Design principle:</strong> Holistic architecture, layered activation. The full system is designed as one connected piece — scope structure, fab inputs, install inputs, claims, and leadership view all built together. Activated in stages so the team adapts to one new habit at a time.</p>
+  <p><strong>Phases gate on the habit, not the calendar<span class="v2c">v2</span></strong> — Phase 3 starts once Al's daily % has held for two straight weeks; Phase 4 once the Friday install log has stuck the same way. Ten weeks is the target, not a forced march — a week's slip to let a habit bed in is cheaper than a dashboard nobody trusts.</p></div>
 </div>
 </section>
 <footer><div class="wrap"><p>Invicta Industries &nbsp;·&nbsp; Progress Tracking System Design &nbsp;·&nbsp; Two to Tango &nbsp;·&nbsp; June 2026</p></div></footer>
@@ -1076,10 +1131,10 @@ const stageData = {
   new:  { name:'New Project', col:'#666f85', who:'PM at contract signing', how:'Manual — PM creates project and assigns locations + scope items', trigger:'When: project is won and scope is confirmed from Groundplan takeoff', phase:'Phase 1', ex:'e.g. East Brisbane Social Housing created with 24 scope items across 8 levels' },
   draft:{ name:'Drafting', col:'#2563eb', who:'PM / drafting team (Lee, Jordan, Sony)', how:'Manual — PM moves item to Drafting when handed to the drafting team', trigger:'When: scope item handed to drafting for concept through to IFC', phase:'Phase 1', ex:'e.g. BAL01 Balustrade moved to Drafting when Lee starts concept drawings' },
   fab:  { name:'Fabricating', col:'#4f46e5', who:'Al (factory manager) — daily number input', how:'Number input (0–100) in the Factory View. Al types % at end of each day', trigger:'When: IFC drawings confirmed + BOM uploaded. PM or Al taps to start', phase:'Phase 2', ex:'e.g. Al types "60" for AM05 Screens at 4:30pm on Thursday' },
-  pc:   { name:'Powder Coat', col:'#f59e0b', who:'⚡ Auto-triggered — no action needed', how:'Automatically set when a "leaving factory" delivery to Yates is confirmed in Deliveries', trigger:'Welded items only. Pre-PC items (louvers, glazing) skip this stage entirely', phase:'Phase 2', ex:'e.g. L2 Kennedy Gates → Powder Coat the moment Dan\'s delivery to Yates is confirmed' },
+  pc:   { name:'Powder Coat', col:'#f59e0b', who:'⚡ Auto-triggered — no action needed', how:'Automatically set when a "leaving factory" delivery to Yates is confirmed in Deliveries — fires when the last unit of the item has shipped, so partial batches never lie about the stage', trigger:'Welded items only. Pre-PC items (louvers, glazing) skip this stage entirely. Shows a days-at-Yates counter with expected return date', phase:'Phase 2', ex:'e.g. L2 Kennedy Gates → Powder Coat the moment Dan\'s final delivery to Yates is confirmed' },
   rfd:  { name:'Ready for Delivery', col:'#0d9488', who:'Al or PM', how:'Al taps "Mark Ready for Delivery" in Factory View when item is back from Yates or pre-PC item is fully assembled', trigger:'Welded: when back from Yates. Pre-PC: when Al marks fab at 100%', phase:'Phase 2', ex:'e.g. THOR Louvers assembled → Al taps Ready for Delivery → Dan schedules pickup' },
-  del:  { name:'Delivered', col:'#2e8555', who:'⚡ Auto-triggered — no action needed', how:'Automatically set when a delivery to site is confirmed in Deliveries (existing Deliveries workflow)', trigger:'When: delivery to site is confirmed with photo in Deliveries tab', phase:'Phase 2', ex:'e.g. Seaworld SCR04 Battens → Delivered the moment Dan confirms the site drop-off' },
-  ins:  { name:'Installing', col:'#7c3aed', who:'Install lead — weekly number input', how:'Number input (0–100) in the Friday Quick Log weekly update prompt', trigger:'When: delivery confirmed + install lead starts on site. Friday update auto-prompted', phase:'Phase 3', ex:'e.g. Will types "45" for SCR01-A Batten Screens at end of Friday' },
+  del:  { name:'Delivered', col:'#2e8555', who:'⚡ Auto-triggered — no action needed', how:'Automatically set when the final site delivery for the item is confirmed in Deliveries (existing workflow) — partial drop-offs raise the % without flipping the stage', trigger:'When: delivery to site is confirmed with photo in Deliveries tab', phase:'Phase 2', ex:'e.g. Seaworld SCR04 Battens → Delivered the moment Dan confirms the site drop-off' },
+  ins:  { name:'Installing', col:'#7c3aed', who:'Install lead — daily or weekly number input', how:'Number input (0–100) in Quick Log — optional any day for leads who log daily, with the Friday prompt as the guaranteed weekly catch-all', trigger:'When: delivery confirmed + install lead starts on site. Friday update auto-prompted', phase:'Phase 3', ex:'e.g. Will types "45" for SCR01-A Batten Screens at end of Friday' },
   done: { name:'Installed', col:'#16a34a', who:'Install lead', how:'Install lead taps "Mark Installed" when scope item is 100% complete — sealant, capping, hardware, all done', trigger:'When: 100% physically complete. Install lead confirms in Connect', phase:'Phase 3', ex:'e.g. Pergola 1–5 on Seaworld marked Installed after final walk-through' }
 };
 let activeStage = null;
@@ -1121,11 +1176,18 @@ function wizGo(step) {
   document.getElementById('ws'+step).style.color = '';
 }
 function selStruct(type) {
-  document.getElementById('sc-lv').classList.toggle('sel', type==='lv');
-  document.getElementById('sc-bld').classList.toggle('sel', type==='bld');
-  document.getElementById('sc-bld').querySelector('.sc-ex').style.color = type==='bld' ? 'var(--app-ok)' : 'var(--app-mu)';
-  document.getElementById('loc-type-lbl').textContent = type==='lv' ? 'levels' : 'buildings';
-  document.getElementById('loc-inp').placeholder = type==='lv' ? 'Add level…' : 'Add building…';
+  const cfg = {
+    lv:  { lbl:'levels', ph:'Add level…' },
+    bld: { lbl:'buildings', ph:'Add building…' },
+    sc:  { lbl:'areas (optional — scope-based projects can skip this step)', ph:'Add area…' }
+  };
+  ['lv','bld','sc'].forEach(t => {
+    const el = document.getElementById('sc-'+t);
+    el.classList.toggle('sel', type===t);
+    el.querySelector('.sc-ex').style.color = type===t ? 'var(--app-ok)' : 'var(--app-mu)';
+  });
+  document.getElementById('loc-type-lbl').textContent = cfg[type].lbl;
+  document.getElementById('loc-inp').placeholder = cfg[type].ph;
 }
 function addLoc() {
   const inp = document.getElementById('loc-inp');
