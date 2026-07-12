@@ -53,6 +53,13 @@ jobs:
             echo "DEPLOY_DIR=." >> $GITHUB_ENV
           fi
 
+      - name: Connect to Tailscale
+        uses: tailscale/github-action@v3
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+          tags: tag:ci
+
       - name: Deploy via rsync
         env:
           DEPLOY_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
