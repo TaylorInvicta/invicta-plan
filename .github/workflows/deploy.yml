@@ -70,7 +70,12 @@ jobs:
           echo "$DEPLOY_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -H "$DROPLET_IP" >> ~/.ssh/known_hosts 2>/dev/null
-          rsync -avz --delete \
+          rsync -avz --delete --delete-excluded \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='.gitignore' \
+            --exclude='docs/' \
+            --exclude='README.md' \
             -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes -o UserKnownHostsFile=~/.ssh/known_hosts" \
             "$DEPLOY_DIR/" \
             "deploy@$DROPLET_IP:$PROJECT_NAME/"
